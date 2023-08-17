@@ -123,6 +123,33 @@ class RovertitoCommander(cmd.Cmd):
         socket_file_descriptor.close()
         print(f'Sent: {message.hex()}')
 
+    def do_stop_forward(self, arg):
+        timestamp = 11
+        interaction_type = 2  # SUBMIT
+        interaction_stage = 1
+        transaction_id = 14
+        service = 1  # TC
+        operation = 6  # StopForward telecommand
+        area_version = 0
+        is_error_message = 0
+        body_length = 0
+        header = struct.pack('<QHBQHHHBH', timestamp,
+                                        interaction_type,
+                                        interaction_stage,
+                                        transaction_id,
+                                        service,
+                                        operation,
+                                        area_version,
+                                        is_error_message,
+                                        body_length)
+        body = bytes()
+        crc = bytes.fromhex('0000')
+        message = header + body + crc
+        socket_file_descriptor = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        socket_file_descriptor.sendto(message, (ROVER_IP, ROVER_PORT))
+        socket_file_descriptor.close()
+        print(f'Sent: {message.hex()}')
+
 
 if __name__ == '__main__':
     RovertitoCommander().cmdloop()
