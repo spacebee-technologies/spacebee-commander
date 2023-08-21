@@ -1,4 +1,3 @@
-
 class SingletonMeta(type):
     _instances = {}
 
@@ -24,17 +23,15 @@ class TelecommandInterface(metaclass=SingletonMeta):
     name=""
     help=""
 
-
-    def loadInputArguments(self,arg):
-        self.body_length=arg.bit_length()
-        print(self.body_length)
-        self.body=arg.to_bytes(self.body_length, 'little')
-
     def getOperationNumber(self):
         return self.operation
+    
+    def loadInputArguments(self,arg):
+        "Load input arguments into the body and calculate the body length."
+        raise NotImplementedError("Subclasses must implement this method")
 
-    def parseOutputArguments(self,bodyResponse):
-        pass
+    def parseOutputArguments(self,response):
+        raise NotImplementedError("Subclasses must implement this method")
 
 
 
