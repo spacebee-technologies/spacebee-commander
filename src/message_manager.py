@@ -1,6 +1,5 @@
 from telecommand_interface import TelecommandInterface
 import struct
-import time
 
 
 class MessageManager:
@@ -24,8 +23,17 @@ class MessageManager:
                                 telecommand.body_length)
         
     def make_CRC(self,telecommand: TelecommandInterface, header):
+            "Make CRC with 16 bits CTC-16-CCITT with polynomial x^16+x^12+x^5+1."
+            
+           
             data=header+telecommand.body
-            return bytes.fromhex('0000') # 16 bits CTC-16-CCITT with polynomial x^16+x^12+x^5+1.
+
+            #TODO check CRC
+            return bytes.fromhex('0000') 
+
+    def check_CRC(self,header,body,crc):
+        #TODO check CRC
+        return True
 
     def make_message(self,telecommand, type):
         header= self.make_header(telecommand,type)
@@ -36,25 +44,32 @@ class MessageManager:
         header_size = struct.calcsize(self.__header_format)
         header_data = response[:header_size]
         timestamp, interaction_type, interaction_stage, transaction_id, service, operation, area_version, is_error_message, body_length = struct.unpack(self.__header_format, header_data)
+        body_response = response[header_size:-2]  
+        crc_response = response[-2:] 
+        
 
-        body = response[header_size:-2]  
-        crc = response[-2:] 
-
-        if interaction_type!=1:   #Hay que checkearlo? o ya suponemos que nunca se va a enviar una respuesta de una interaccion
+        if interaction_stage!=1:   #Checkea que el interaction type es una respuesta del mensaje
             if not is_error_message:
-                #TODO check CRC
-
-                if interaction_type==2:
-                    return body            #ACK is empty body
                 
-                if interaction_type==3:
-                    #Search for a telecomand with operation and execute the function parseOutputArguments
-                    print('')
-                if interaction_type==6:
-                    #It is telemetry
-                    #Separar la telemetria a parte. no lo veo yo
-                    print("")
+                if self.check_CRC(header_data,body_response,crc_response):
+
+                    if interaction_type==2:
+                        if body_response == None:
+                            return True
+                        else:
+                            return False          #ACK is empty body
+
+                    elif interaction_type==3:
+                        #Search for a telecomand with operation and execute the function parseOutputArguments
+                        return body_response
+                    
+                    elif interaction_type==6:
+                        #It is telemetry
+                        print("Error is telemetry")
+                
+                else:
+                    print("CRC check failed. Error in the communication detected.")
             else:
-                raise "There is an error"
+                print("The message is an error")
 
     
