@@ -3,7 +3,7 @@ import struct
 import cmd
 
 
-ROVER_IP = '192.168.1.12'
+ROVER_IP = '192.168.0.228'
 ROVER_PORT = 51524
 
 
