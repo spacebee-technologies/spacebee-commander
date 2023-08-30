@@ -176,7 +176,7 @@ class RovertitoCommander(cmd.Cmd):
         interaction_stage = 1
         transaction_id = 14
         service = 1  # TC
-        operation = 5  # Enable TM telecommand
+        operation = 7  # TMEnable telecommand
         area_version = 0
         is_error_message = 0
         body_length = 2
@@ -206,7 +206,7 @@ class RovertitoCommander(cmd.Cmd):
         interaction_stage = 1
         transaction_id = 14
         service = 1  # TC
-        operation = 5  # Enable TM telecommand
+        operation = 8  # TMDisable telecommand
         area_version = 0
         is_error_message = 0
         body_length = 2
