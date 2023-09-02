@@ -1,3 +1,5 @@
+import struct
+
 class SingletonMeta(type):
     _instances = {}
 
@@ -17,21 +19,21 @@ class TelecommandInterface(metaclass=SingletonMeta):
     area_version=None           # 16 bits	Protocol version
     is_error_message=False      # 8 bit	Boolean value to indicate if is an error message (0x1 for true, 0x0 for false)
     body_length = None          # 16 bits	Longitude in bytes of the message body
-    
     body= None
 
     name=""
     help=""
-
+    help_input=""
+    num_inputs=None
     def getOperationNumber(self):
         return self.operation
     
     def loadInputArguments(self,arg):
         "Load input arguments into the body and calculate the body length."
-        raise NotImplementedError("Subclasses must implement this method")
+        raise NotImplementedError("Telecommand must implement this method")
 
     def parseOutputArguments(self,response):
-        raise NotImplementedError("Subclasses must implement this method")
+        raise NotImplementedError("Telecommand must implement this method")
 
 
 

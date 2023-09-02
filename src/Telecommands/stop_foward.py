@@ -1,23 +1,18 @@
 from telecommand_interface import TelecommandInterface,struct
 
-class set_mode(TelecommandInterface):
+class set_target_velocity(TelecommandInterface):
     def __init__(self):
-        self.name="set_mode"
-        self.help="input args= 0:OFF 1:Manual 2:Automatic"
-        self.help_input="mode=0:OFF 1:Manual 2:Automatic"
+        self.name="start_forward"
+        self.help=""
+        self.help_input="None"
         self.interaction_stage=1
         self.service=1
-        self.operation=2
+        self.operation=6
         self.area_version=0
-        self.num_inputs=1
-
+        self.num_inputs=0
     def loadInputArguments(self,arg):
         "Load input arguments into the body and calculate the body length."
-        arg=int(arg)
-        self.body_length=(arg.bit_length() + 7) // 8
-        self.body=arg.to_bytes(self.body_length, 'little')
-
-
+        
     def parseOutputArguments(self,response):
         print("No output arguments!")
         return None
