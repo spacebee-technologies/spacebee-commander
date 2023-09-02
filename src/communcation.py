@@ -12,7 +12,7 @@ class UdpHandler:
 
     def send(self,message):
         socket_file_descriptor = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        socket_file_descriptor.sendto(message, (self.rover_ip, self.rover_port))
+        socket_file_descriptor.sendto(message, (self.rover_ip, self.rover_port_send))
         socket_file_descriptor.close()
 
         print(f'Sent: {message.hex()}')
@@ -20,7 +20,7 @@ class UdpHandler:
     def recive(self):
         print("Lisen to port...")
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        sock.bind((self.rover_ip,51525))
+        sock.bind((self.rover_ip,self.rover_port_recive))
 
 
         sock.settimeout(1)

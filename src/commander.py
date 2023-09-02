@@ -37,6 +37,8 @@ class Commander:
         ack=unpack_respose=self.messageManager.unpack(response)
         if ack:
             print("ACK")
+        else:
+            print("No ACK")
 
 
             
@@ -56,6 +58,7 @@ class Commander:
             print(f"Response_dict: {response_dict}")
             return response_dict
         else:
+            print("No Response send")
             return False
 
 
