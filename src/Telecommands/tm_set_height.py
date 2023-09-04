@@ -5,8 +5,6 @@ class set_mode(TelecommandInterface):
         self.name="set_height"
         self.help="Set degree angle of the wheel"
         self.help_input="height= (float)"
-        self.interaction_stage=1
-        self.service=1
         self.operation=3
         self.area_version=0
         self.num_inputs=0
@@ -20,6 +18,7 @@ class set_mode(TelecommandInterface):
 
 
     def parseOutputArguments(self,response):
+        "Parse the output argument, where the response is a byte sequence, and return a dictionary."
         print("No output arguments!")
         return None
     

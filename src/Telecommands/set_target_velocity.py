@@ -5,8 +5,6 @@ class set_target_velocity(TelecommandInterface):
         self.name="set_target_velocity"
         self.help=""
         self.help_input="target velocity= float"
-        self.interaction_stage=1
-        self.service=1
         self.operation=4
         self.area_version=0
         self.num_inputs=1
@@ -18,5 +16,6 @@ class set_target_velocity(TelecommandInterface):
         self.body_length=len(self.body)
 
     def parseOutputArguments(self,response):
+        "Parse the output argument, where the response is a byte sequence, and return a dictionary."
         print("No output arguments!")
         return None

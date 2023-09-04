@@ -12,19 +12,19 @@ class SingletonMeta(type):
 
 class TelecommandInterface(metaclass=SingletonMeta):
 
-    interaction_stage = None    # 8 bits	1 or 2 according to message order
+    interaction_stage = 1       # 8 bits	1 or 2 according to message order
     transaction_id = None       # Unique incremental identifier
-    service= None               # 0 for telemetries (TM) or 1 for telecommands (TC)
+    service= 1                  # 0 for telemetries (TM) or 1 for telecommands (TC)
     operation=None              # 16 bits	Unique identifier for a given telemetry or telecommand
     area_version=None           # 16 bits	Protocol version
     is_error_message=False      # 8 bit	Boolean value to indicate if is an error message (0x1 for true, 0x0 for false)
     body_length = None          # 16 bits	Longitude in bytes of the message body
     body= None
 
-    name=""
-    help=""
-    help_input=""
-    num_inputs=None
+    name=""                     # string Name of the telecommand
+    help=""                     # string Description and usage for the telecommand
+    help_input=""               # string Description for the inptus arguments
+    num_inputs=None             # int Number of input arguments for this command	
     def getOperationNumber(self):
         return self.operation
     
@@ -33,6 +33,7 @@ class TelecommandInterface(metaclass=SingletonMeta):
         raise NotImplementedError("Telecommand must implement this method")
 
     def parseOutputArguments(self,response):
+        "Parse the output argument, where the response is a byte sequence, and return a dictionary."
         raise NotImplementedError("Telecommand must implement this method")
 
 

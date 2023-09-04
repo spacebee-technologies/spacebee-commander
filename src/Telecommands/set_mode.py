@@ -5,8 +5,6 @@ class set_mode(TelecommandInterface):
         self.name="set_mode"
         self.help="input args= 0:OFF 1:Manual 2:Automatic"
         self.help_input="mode=0:OFF 1:Manual 2:Automatic"
-        self.interaction_stage=1
-        self.service=1
         self.operation=2
         self.area_version=0
         self.num_inputs=1
@@ -19,5 +17,6 @@ class set_mode(TelecommandInterface):
 
 
     def parseOutputArguments(self,response):
+        "Parse the output argument, where the response is a byte sequence, and return a dictionary."
         print("No output arguments!")
         return None

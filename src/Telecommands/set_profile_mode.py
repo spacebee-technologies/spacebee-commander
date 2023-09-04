@@ -5,8 +5,6 @@ class set_profile_mode(TelecommandInterface):
         self.name="set_profile_mode"
         self.help="input args= 0:FORWARD 1:SET HEIGHT 2:TURN"
         self.help_input="profile mode= 0:FORWARD 1:SET HEIGHT 2:TURN"
-        self.interaction_stage=1
-        self.service=1
         self.operation=3
         self.area_version=0
         self.num_inputs=1
@@ -18,5 +16,6 @@ class set_profile_mode(TelecommandInterface):
         self.body=arg.to_bytes(self.body_length, 'little')
 
     def parseOutputArguments(self,response):
+        "Parse the output argument, where the response is a byte sequence, and return a dictionary."
         print("No output arguments!")
         return None
