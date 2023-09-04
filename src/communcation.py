@@ -2,15 +2,24 @@ import socket
 ROVER_IP= '192.168.0.228'
 RECIVER_IP='192.168.0.185'
 ROVER_PORT_SEND= 51524
-ROVER_PORT_RECIVE= 51525
+REVICER_PORT= 51525
 
 class UdpHandler:
 
+<<<<<<< HEAD
     def __init__(self,ip,port_send,reciver_ip,port_response):
         self.rover_ip = ip
         self.rover_port_send =port_send
         self.reciver_ip=reciver_ip
         self.rover_port_recive=port_response
+=======
+    def __init__(self,ip,port_send,reciver_ip,reciver_port):
+        self.rover_ip = ip
+        self.rover_port_send =port_send
+        self.reciver_ip=reciver_ip
+        self.reciver_port=reciver_port
+
+>>>>>>> refs/remotes/origin/1-draft-cli
 
     def send(self,message):
         socket_file_descriptor = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -22,7 +31,11 @@ class UdpHandler:
     def recive(self):
         print("Lisen to port...")
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+<<<<<<< HEAD
         sock.bind((self.reciver_ip,self.rover_port_recive))
+=======
+        sock.bind((self.reciver_ip,self.reciver_port))
+>>>>>>> refs/remotes/origin/1-draft-cli
 
 
         sock.settimeout(1)
@@ -45,7 +58,11 @@ class UdpHandler:
 
 class Comunication:
     def __init__(self):
+<<<<<<< HEAD
         self.udp=UdpHandler(ROVER_IP,ROVER_PORT_SEND,RECIVER_IP,ROVER_PORT_RECIVE)
+=======
+        self.udp=UdpHandler(ROVER_IP,ROVER_PORT_SEND,RECIVER_IP,REVICER_PORT)
+>>>>>>> refs/remotes/origin/1-draft-cli
 
     def send(self,message):
         self.udp.send(message)
