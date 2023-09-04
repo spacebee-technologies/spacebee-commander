@@ -23,13 +23,19 @@ class MessageManager:
                                 telecommand.body_length)
         
     def make_CRC(self,telecommand: TelecommandInterface, header):
-            "Make CRC with 16 bits CTC-16-CCITT with polynomial x^16+x^12+x^5+1."
-            
-           
-            data=header+telecommand.body
+        "Make CRC with 16 bits CTC-16-CCITT with polynomial x^16+x^12+x^5+1."
+        data=header+telecommand.body
+        crc = 0xFFFF
+        for byte in data:
+            crc ^= (byte << 8)
+            for _ in range(8):
+                if crc & 0x8000:
+                    crc = (crc << 1) ^ 0x1021
+                else:
+                    crc <<= 1
 
-            #TODO check CRC
-            return bytes.fromhex('0000') 
+        return crc & 0xFFFF
+
 
     def check_CRC(self,header,body,crc):
         #TODO check CRC
@@ -37,7 +43,8 @@ class MessageManager:
 
     def make_message(self,telecommand, type):
         header= self.make_header(telecommand,type)
-        crc=self.make_CRC(telecommand,header)
+        crc=self.make_CRC(telecommand,header).to_bytes(2, 'little')
+        print(f"Header:{header} + body:{telecommand.body} + crc: {crc}")
         return header+telecommand.body+crc 
         
     def unpack(self,response):
