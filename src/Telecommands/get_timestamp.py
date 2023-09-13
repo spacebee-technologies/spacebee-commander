@@ -6,7 +6,7 @@ class set_mode(TelecommandInterface):
     def __init__(self):
         self.name="get_timestamp"
         self.help="Get timestamp"
-        self.help_input="None" #Para que no se rompa en otro lado
+        self.help_input="None" 
         self.operation=1
         self.area_version=0
         self.num_inputs=0
