@@ -18,7 +18,6 @@ class RovertitoCommander(cmd.Cmd):
                         args_array.append(0)\n\
                         length_args=len(args_array)\n\
                         args_array = args.split()\n\
-                        print(len(args_array))\n\
                         if len(args_array)!={telecommand.num_inputs}+1:\n\
                             raise ValueError\n\
                         mode=int(args_array[length_args-1])\n\
