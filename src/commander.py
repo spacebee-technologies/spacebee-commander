@@ -54,8 +54,8 @@ class Commander:
         response=self.communication.recive()
         
         if response!= None:
-            unpack_respose=self.messageManager.unpack(response)
-            response_dict=telecommand.parseOutputArguments(unpack_respose)
+            unpack_response=self.messageManager.unpack(response)
+            response_dict=telecommand.parseOutputArguments(unpack_response)
             print(f"Response_dict: {response_dict}")
             return response_dict
         else:
