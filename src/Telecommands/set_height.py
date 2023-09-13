@@ -7,7 +7,7 @@ class set_mode(TelecommandInterface):
         self.help_input="height= (float)"
         self.operation=3
         self.area_version=0
-        self.num_inputs=0
+        self.num_inputs=1
 
     def loadInputArguments(self,arg):
         "Load input arguments into the body and calculate the body length."

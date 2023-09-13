@@ -10,6 +10,8 @@ class set_target_velocity(TelecommandInterface):
         self.num_inputs=0
     def loadInputArguments(self,arg):
         "Load input arguments into the body and calculate the body length."
+        self.body_length=0
+        self.body=bytes()
 
     def parseOutputArguments(self,response):
         "Parse the output argument, where the response is a byte sequence, and return a dictionary."

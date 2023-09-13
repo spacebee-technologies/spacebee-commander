@@ -12,9 +12,8 @@ class set_mode(TelecommandInterface):
 
     def loadInputArguments(self,arg):
         "Load input arguments into the body and calculate the body length."
-        arg=int(arg)
-        self.body_length=(arg.bit_length() + 7) // 8
-        self.body=arg.to_bytes(self.body_length, 'little')
+        self.body_length=0
+        self.body=bytes()
 
 
     def parseOutputArguments(self,response):
