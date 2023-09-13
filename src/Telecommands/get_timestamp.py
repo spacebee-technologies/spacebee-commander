@@ -1,6 +1,7 @@
 from telecommand_interface import TelecommandInterface,struct
 from datetime import timedelta
 
+
 class set_mode(TelecommandInterface):
     def __init__(self):
         self.name="get_timestamp"
@@ -19,7 +20,9 @@ class set_mode(TelecommandInterface):
     def parseOutputArguments(self,response):
         "Parse the output argument, where the response is a byte sequence, and return a dictionary."
         response_dict={}
-        timestamp = timedelta(milliseconds=response)
-        response_dict["timestamp"]=timestamp
+        response_int=int.from_bytes(response,"little")
+        timestamp = timedelta(milliseconds=response_int)
+        str_timestamp=str(timestamp)
+        response_dict["timestamp"]=str_timestamp
         return response_dict
 
