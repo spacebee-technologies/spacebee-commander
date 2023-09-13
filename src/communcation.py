@@ -1,8 +1,5 @@
 import socket
-ROVER_IP= '192.168.0.53'
-RECIVER_IP='192.168.0.185'
-ROVER_PORT_SEND= 51524
-REVICER_PORT= 51525
+import network_parameters as np
 
 class UdpHandler:
 
@@ -45,7 +42,7 @@ class UdpHandler:
 
 class Comunication:
     def __init__(self):
-        self.udp=UdpHandler(ROVER_IP,ROVER_PORT_SEND,RECIVER_IP,REVICER_PORT)
+        self.udp=UdpHandler(np.ROVER_IP,np.ROVER_PORT_SEND,np.RECIVER_IP,np.REVICER_PORT)
 
     def send(self,message):
         self.udp.send(message)
