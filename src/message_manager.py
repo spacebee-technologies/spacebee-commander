@@ -54,7 +54,6 @@ class MessageManager:
         body_response = response[header_size:-2]  
         crc_response = response[-2:] 
         
-
         if interaction_stage!=1:   #Checkea que el interaction type es una respuesta del mensaje
             if not is_error_message:
                 
@@ -78,5 +77,7 @@ class MessageManager:
                     print("CRC check failed. Error in the communication detected.")
             else:
                 print("The message is an error")
+        else:
+            print("Error, interaction stage not valid")
 
     
