@@ -34,9 +34,9 @@ class Commander:
         self.communication.send(message)
         response=self.communication.recive()
 
-        ack=unpack_respose=self.messageManager.unpack(response)
+        ack=self.messageManager.unpack(response)
         
-        if ack==None:
+        if ack:
             print("ACK")
         else:
             print("No ACK")
