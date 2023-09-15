@@ -24,6 +24,6 @@ And define the following functions:
 *   ```
     def parseOutputArguments(self,response):
     "Parse the output argument, where the response is a byte sequence, and return a dictionary."
-
+    return dictonary
     ```
-    Need to return a dictonary.
+  
