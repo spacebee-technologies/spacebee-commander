@@ -22,9 +22,9 @@ class MessageManager:
                                 telecommand.is_error_message,
                                 telecommand.body_length)
         
-    def make_CRC(self,telecommand: TelecommandInterface, header):
+    def make_CRC(self, header, body):
         "Make CRC with 16 bits CTC-16-CCITT with polynomial x^16+x^12+x^5+1."
-        data=header+telecommand.body
+        data=header+body
         crc = 0xFFFF
         for byte in data:
             crc ^= (byte << 8)
@@ -37,13 +37,19 @@ class MessageManager:
         return crc & 0xFFFF
 
 
-    def check_CRC(self,header,body,crc):
-        #TODO check CRC
-        return True
+    def check_CRC(self,header,body,crc_check):
+        print(body)
+        crc=self.make_CRC(header,body).to_bytes(2, 'little')
+        print(f"CRC: {crc}")
+        print(f"CRC check: {crc_check}")
+        if crc == crc_check:
+            return True
+        else:
+            return False
 
     def make_message(self,telecommand, type):
         header= self.make_header(telecommand,type)
-        crc=self.make_CRC(telecommand,header).to_bytes(2, 'little')
+        crc=self.make_CRC(header,telecommand.body).to_bytes(2, 'little')
         print(f"Header:{header} + body:{telecommand.body} + crc: {crc}")
         return header+telecommand.body+crc 
         
@@ -60,7 +66,8 @@ class MessageManager:
                 if self.check_CRC(header_data,body_response,crc_response):
 
                     if interaction_type==2:
-                        if body_response == None:
+                        print(f"body:{body_response}")
+                        if not body_response:
                             return True
                         else:
                             return False          #ACK is empty body
