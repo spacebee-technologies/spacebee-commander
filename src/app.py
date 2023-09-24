@@ -1,12 +1,27 @@
 import cmd
 from commander import Commander
 
+
+def crc16_ccitt(data):
+    crc = 0xFFFF
+
+    for byte in data:
+        crc ^= (byte << 8)
+        for _ in range(8):
+            if crc & 0x8000:
+                crc = (crc << 1) ^ 0x1021
+            else:
+                crc <<= 1
+
+    return crc & 0xFFFF
+
+
 class RovertitoCommander(cmd.Cmd):
 
     intro = 'Welcome to RovertitoCommander v 0.1.\n Type help or ? to list commands.\n'
     prompt = '$ '
     commander = Commander()
-    
+
     def create_CLI_telecommand(cls, telecommand):
         method_name=f"do_{telecommand.name}"
         method_code= f"def {method_name}(self,args):\n\
@@ -37,11 +52,11 @@ class RovertitoCommander(cmd.Cmd):
         method_func.__doc__ = f"{telecommand.help} \n {telecommand.help_input}"
         setattr(cls, method_name, classmethod(method_func))
 
-
-    def do_exit(self,arg):
+    def do_exit(self, arg):
         'Exit the program.'
         print("Exiting...")
         return True
+
 
 if __name__ == '__main__':
     telecommands=RovertitoCommander.commander.telecommands
