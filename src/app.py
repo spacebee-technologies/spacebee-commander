@@ -1,10 +1,5 @@
-import socket
-import struct
 import cmd
-
-
-ROVER_IP = '192.168.0.228'
-ROVER_PORT = 51524
+from commander import Commander
 
 
 def crc16_ccitt(data):
@@ -23,212 +18,48 @@ def crc16_ccitt(data):
 
 class RovertitoCommander(cmd.Cmd):
 
-    intro = 'Welcome to RovertitoCommander. Type help or ? to list commands.\n'
+    intro = 'Welcome to RovertitoCommander v 0.1.\n Type help or ? to list commands.\n'
     prompt = '$ '
+    commander = Commander()
 
-    def do_set_mode(self, arg):
-        mode = int(arg)
-        timestamp = 11
-        interaction_type = 2  # SUBMIT
-        interaction_stage = 1
-        transaction_id = 14
-        service = 1  # TC
-        operation = 2  # SetMode telecommand
-        area_version = 0
-        is_error_message = 0
-        body_length = 1
-        header = struct.pack('<QHBQHHHBH', timestamp,
-                                        interaction_type,
-                                        interaction_stage,
-                                        transaction_id,
-                                        service,
-                                        operation,
-                                        area_version,
-                                        is_error_message,
-                                        body_length)
-        body = mode.to_bytes(1, 'little')
-        calculated_crc = crc16_ccitt(header + body)
-        crc = calculated_crc.to_bytes(2, 'little')
-        message = header + body + crc
-        socket_file_descriptor = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        socket_file_descriptor.sendto(message, (ROVER_IP, ROVER_PORT))
-        socket_file_descriptor.close()
-        print(f'Sent: {message.hex()}')
+    def create_CLI_telecommand(cls, telecommand):
+        method_name=f"do_{telecommand.name}"
+        method_code= f"def {method_name}(self,args):\n\
+                    telecommand=self.commander.getTelecommand({telecommand.operation})\n\
+                    try:\n\
+                        args_array=[]\n\
+                        for i in range(0,{telecommand.num_inputs}):\n\
+                            args_array.append(i)\n\
+                        args_array.append(0)\n\
+                        length_args=len(args_array)\n\
+                        args_array = args.split()\n\
+                        if len(args_array)!={telecommand.num_inputs}+1:\n\
+                            raise ValueError\n\
+                        mode=int(args_array[length_args-1])\n\
+                        inputs=' '.join(args_array[0:length_args-1])\n\
+                        telecommand.loadInputArguments(inputs)\n\
+                        self.commander.send_message(telecommand,mode)\n\
+                    except ValueError:\n\
+                        print('Argument not valid!')\n\
+                        print('should be: do_{telecommand.name} arg mode')\n\
+                        print('arg: {telecommand.help_input}')\n\
+                        print('mode: 1:Send 2:Submit 3:Request')\n\
+                "
+        method_globals = globals().copy()
+        method_globals[cls.__name__] = cls
+        exec(method_code, method_globals)
+        method_func = method_globals[method_name]
+        method_func.__doc__ = f"{telecommand.help} \n {telecommand.help_input}"
+        setattr(cls, method_name, classmethod(method_func))
 
-    def do_set_height(self, arg):
-        angle_position = float(arg)
-        timestamp = 11
-        interaction_type = 2  # SUBMIT
-        interaction_stage = 1
-        transaction_id = 14
-        service = 1  # TC
-        operation = 3  # SetHeight telecommand
-        area_version = 0
-        is_error_message = 0
-        body_length = 4
-        header = struct.pack('<QHBQHHHBH', timestamp,
-                                        interaction_type,
-                                        interaction_stage,
-                                        transaction_id,
-                                        service,
-                                        operation,
-                                        area_version,
-                                        is_error_message,
-                                        body_length)
-        body = struct.pack('f', angle_position)
-        calculated_crc = crc16_ccitt(header + body)
-        crc = calculated_crc.to_bytes(2, 'little')
-        message = header + body + crc
-        socket_file_descriptor = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        socket_file_descriptor.sendto(message, (ROVER_IP, ROVER_PORT))
-        socket_file_descriptor.close()
-        print(f'Sent: {message.hex()}')
-
-    def do_set_target_velocity(self, arg):
-        target_velocity = float(arg)
-        timestamp = 11
-        interaction_type = 2  # SUBMIT
-        interaction_stage = 1
-        transaction_id = 14
-        service = 1  # TC
-        operation = 4  # SetTargetVelocity telecommand
-        area_version = 0
-        is_error_message = 0
-        body_length = 4
-        header = struct.pack('<QHBQHHHBH', timestamp,
-                                        interaction_type,
-                                        interaction_stage,
-                                        transaction_id,
-                                        service,
-                                        operation,
-                                        area_version,
-                                        is_error_message,
-                                        body_length)
-        body = struct.pack('f', target_velocity)
-        calculated_crc = crc16_ccitt(header + body)
-        crc = calculated_crc.to_bytes(2, 'little')
-        message = header + body + crc
-        socket_file_descriptor = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        socket_file_descriptor.sendto(message, (ROVER_IP, ROVER_PORT))
-        socket_file_descriptor.close()
-        print(f'Sent: {message.hex()}')
-
-    def do_start_forward(self, arg):
-        timestamp = 11
-        interaction_type = 2  # SUBMIT
-        interaction_stage = 1
-        transaction_id = 14
-        service = 1  # TC
-        operation = 5  # StartForward telecommand
-        area_version = 0
-        is_error_message = 0
-        body_length = 0
-        header = struct.pack('<QHBQHHHBH', timestamp,
-                                        interaction_type,
-                                        interaction_stage,
-                                        transaction_id,
-                                        service,
-                                        operation,
-                                        area_version,
-                                        is_error_message,
-                                        body_length)
-        body = bytes()
-        calculated_crc = crc16_ccitt(header + body)
-        crc = calculated_crc.to_bytes(2, 'little')
-        message = header + body + crc
-        socket_file_descriptor = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        socket_file_descriptor.sendto(message, (ROVER_IP, ROVER_PORT))
-        socket_file_descriptor.close()
-        print(f'Sent: {message.hex()}')
-
-    def do_stop_forward(self, arg):
-        timestamp = 11
-        interaction_type = 2  # SUBMIT
-        interaction_stage = 1
-        transaction_id = 14
-        service = 1  # TC
-        operation = 6  # StopForward telecommand
-        area_version = 0
-        is_error_message = 0
-        body_length = 0
-        header = struct.pack('<QHBQHHHBH', timestamp,
-                                        interaction_type,
-                                        interaction_stage,
-                                        transaction_id,
-                                        service,
-                                        operation,
-                                        area_version,
-                                        is_error_message,
-                                        body_length)
-        body = bytes()
-        calculated_crc = crc16_ccitt(header + body)
-        crc = calculated_crc.to_bytes(2, 'little')
-        message = header + body + crc
-        socket_file_descriptor = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        socket_file_descriptor.sendto(message, (ROVER_IP, ROVER_PORT))
-        socket_file_descriptor.close()
-        print(f'Sent: {message.hex()}')
-
-    def do_TM_Enable(self, arg):
-        TM = int(arg)
-        timestamp = 11
-        interaction_type = 2  # SUBMIT
-        interaction_stage = 1
-        transaction_id = 14
-        service = 1  # TC
-        operation = 7  # TMEnable telecommand
-        area_version = 0
-        is_error_message = 0
-        body_length = 2
-        header = struct.pack('<QHBQHHHBH', timestamp,
-                                        interaction_type,
-                                        interaction_stage,
-                                        transaction_id,
-                                        service,
-                                        operation,
-                                        area_version,
-                                        is_error_message,
-                                        body_length)
-        body0 = TM.to_bytes(1, 'little')
-        body1 = int(1).to_bytes(1, 'little')
-        calculated_crc = crc16_ccitt(header + body0 + body1)
-        crc = calculated_crc.to_bytes(2, 'little')
-        message = header + body0 + body1 + crc
-        socket_file_descriptor = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        socket_file_descriptor.sendto(message, (ROVER_IP, ROVER_PORT))
-        socket_file_descriptor.close()
-        print(f'Sent: {message.hex()}')
-
-    def do_TM_Disable(self, arg):
-        TM = int(arg)
-        timestamp = 11
-        interaction_type = 2  # SUBMIT
-        interaction_stage = 1
-        transaction_id = 14
-        service = 1  # TC
-        operation = 8  # TMDisable telecommand
-        area_version = 0
-        is_error_message = 0
-        body_length = 2
-        header = struct.pack('<QHBQHHHBH', timestamp,
-                                        interaction_type,
-                                        interaction_stage,
-                                        transaction_id,
-                                        service,
-                                        operation,
-                                        area_version,
-                                        is_error_message,
-                                        body_length)
-        body0 = TM.to_bytes(1, 'little')
-        body1 = int(0).to_bytes(1, 'little')
-        calculated_crc = crc16_ccitt(header + body0 + body1)
-        crc = calculated_crc.to_bytes(2, 'little')
-        message = header + body0 + body1 + crc
-        socket_file_descriptor = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        socket_file_descriptor.sendto(message, (ROVER_IP, ROVER_PORT))
-        socket_file_descriptor.close()
-        print(f'Sent: {message.hex()}')
+    def do_exit(self, arg):
+        'Exit the program.'
+        print("Exiting...")
+        return True
 
 
 if __name__ == '__main__':
+    telecommands=RovertitoCommander.commander.telecommands
+    for telecommand in telecommands:
+        RovertitoCommander.create_CLI_telecommand(RovertitoCommander, telecommand)
     RovertitoCommander().cmdloop()
