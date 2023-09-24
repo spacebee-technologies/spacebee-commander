@@ -1,13 +1,14 @@
 import socket
 import network_parameters as np
 
+
 class UdpHandler:
 
-    def __init__(self,ip,port_send,reciver_ip,port_response):
+    def __init__(self,ip,port_send,receiver_ip,port_response):
         self.rover_ip = ip
         self.rover_port_send =port_send
-        self.reciver_ip=reciver_ip
-        self.rover_port_recive=port_response
+        self.receiver_ip=receiver_ip
+        self.rover_port_receive=port_response
 
     def send(self,message):
         socket_file_descriptor = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -16,10 +17,10 @@ class UdpHandler:
 
         print(f'Sent: {message.hex()}')
 
-    def recive(self):
-        print("Lisen to port...")
+    def receive(self):
+        print("Listen to port...")
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        sock.bind((self.reciver_ip,self.rover_port_recive))
+        sock.bind((self.receiver_ip,self.rover_port_receive))
 
 
         sock.settimeout(1)
@@ -38,15 +39,14 @@ class UdpHandler:
         finally:
             sock.close()
 
-       
 
-class Comunication:
+class Communication:
+
     def __init__(self):
-        self.udp=UdpHandler(np.ROVER_IP,np.ROVER_PORT_SEND,np.RECIVER_IP,np.REVICER_PORT)
+        self.udp=UdpHandler(np.ROVER_IP,np.ROVER_PORT_SEND,np.RECEIVER_IP,np.RECEIVER_PORT)
 
     def send(self,message):
         self.udp.send(message)
-    
-    def recive(self):
-        return self.udp.recive()
-        
+
+    def receive(self):
+        return self.udp.receive()
