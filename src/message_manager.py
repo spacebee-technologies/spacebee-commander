@@ -36,10 +36,7 @@ class MessageManager:
         return crc & 0xFFFF
 
     def check_CRC(self,header,body,crc_check):
-        print(body)
         crc=self.make_CRC(header,body).to_bytes(2, 'little')
-        print(f"CRC: {crc}")
-        print(f"CRC check: {crc_check}")
         if crc == crc_check:
             return True
         else:
