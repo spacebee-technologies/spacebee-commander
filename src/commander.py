@@ -30,13 +30,15 @@ class Commander:
         message = self.messageManager.make_message(telecommand,interaction_type)
         self.communication.send(message)
         response=self.communication.receive()
+        if response != None:
+            ack=self.messageManager.unpack(response)
 
-        ack=self.messageManager.unpack(response)
-
-        if ack:
-            print("ACK")
-        else:
-            print("No ACK")
+            if ack:
+                print("ACK")
+            else:
+                print("No ACK")
+        else: 
+            print("Error no response receive")
 
     def request(self, telecommand):
         "REQUEST. In of a message with a response message. It returns the message if everything is okay, False otherwise"
@@ -53,7 +55,7 @@ class Commander:
             print(f"Response_dict: {response_dict}")
             return response_dict
         else:
-            print("No Response send")
+            print("Error no response receive")
             return False
 
     def send_message(self,telecommand,interaction_type):

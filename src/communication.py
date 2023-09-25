@@ -22,8 +22,8 @@ class UdpHandler:
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.bind((self.receiver_ip,self.rover_port_receive))
 
-
-        sock.settimeout(1)
+        timeout_seconds=1
+        sock.settimeout(timeout_seconds)
 
         try:
             data, addr = sock.recvfrom(1024)
