@@ -2,7 +2,7 @@ from telecommand_interface import TelecommandInterface,struct
 from datetime import timedelta
 
 
-class set_mode(TelecommandInterface):
+class get_timestamp(TelecommandInterface):
     def __init__(self):
         self.name="get_timestamp"
         self.help="Get timestamp"

@@ -1,8 +1,8 @@
 from telecommand_interface import TelecommandInterface,struct
 
-class set_target_velocity(TelecommandInterface):
+class stop_forward(TelecommandInterface):
     def __init__(self):
-        self.name="start_forward"
+        self.name="stop_forward"
         self.help=""
         self.help_input="None"
         self.operation=6
