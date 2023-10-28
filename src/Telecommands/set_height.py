@@ -12,7 +12,7 @@ class set_mode(TelecommandInterface):
     def loadInputArguments(self,arg):
         "Load input arguments into the body and calculate the body length."
         arg=float(arg)
-        self.body=struct.pack('<f', arg)    # <f float to little-endian bytes
+        self.body=struct.pack('f', arg)
         self.body_length=len(self.body)
 
 
