@@ -1,6 +1,6 @@
 from telecommand_interface import TelecommandInterface,struct
 
-class set_mode(TelecommandInterface):
+class tm_enable(TelecommandInterface):
     def __init__(self):
         self.name="tm_enable"
         self.help="Enable TM"

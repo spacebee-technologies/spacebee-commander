@@ -1,21 +1,6 @@
 import cmd
 from commander import Commander
 
-
-def crc16_ccitt(data):
-    crc = 0xFFFF
-
-    for byte in data:
-        crc ^= (byte << 8)
-        for _ in range(8):
-            if crc & 0x8000:
-                crc = (crc << 1) ^ 0x1021
-            else:
-                crc <<= 1
-
-    return crc & 0xFFFF
-
-
 class RovertitoCommander(cmd.Cmd):
 
     intro = 'Welcome to RovertitoCommander v 0.1.\n Type help or ? to list commands.\n'

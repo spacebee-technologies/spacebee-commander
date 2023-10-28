@@ -1,6 +1,6 @@
 from telecommand_interface import TelecommandInterface,struct
 
-class set_mode(TelecommandInterface):
+class set_height(TelecommandInterface):
     def __init__(self):
         self.name="set_height"
         self.help="Set degree angle of the wheel"
