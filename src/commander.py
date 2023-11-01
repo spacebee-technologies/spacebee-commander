@@ -35,10 +35,13 @@ class Commander:
 
             if ack:
                 print("ACK")
+                return True
             else:
                 print("No ACK")
+                return False
         else: 
             print("Error no response receive")
+            return False
 
     def request(self, telecommand):
         "REQUEST. In of a message with a response message. It returns the message if everything is okay, False otherwise"
@@ -61,8 +64,8 @@ class Commander:
     def send_message(self,telecommand,interaction_type):
         "Receive a telecommand and interaction type and then send the corresponding interaction."
         if interaction_type==1:
-            self.send(telecommand)
+            return self.send(telecommand)
         elif interaction_type==2:
-            self.submit(telecommand)
+            return self.submit(telecommand)
         elif interaction_type==3:
-            self.request(telecommand)
+            return self.request(telecommand)
