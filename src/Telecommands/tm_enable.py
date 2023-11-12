@@ -12,14 +12,17 @@ class tm_enable(TelecommandInterface):
     def loadInputArguments(self,arg):
         "Load input arguments into the body and calculate the body length."
         tm, state = arg.split()
-        print(f"{tm} {state}")
+        
         tm=int(tm)
-        tm_length_bytes=(tm.bit_length() + 7) // 8
-        tm_bytes=tm.to_bytes(tm_length_bytes, 'little')
-        print(tm_bytes)
         state=int(state)
-        state_length_bytes=(state.bit_length() + 7) // 8
+        if tm<0 or (state!=0 and state!=1):
+            raise ValueError
+
+        tm_length_bytes = max((tm.bit_length() + 7) // 8, 1)
+        tm_bytes = tm.to_bytes(tm_length_bytes, 'little')
+        state_length_bytes=max((state.bit_length() + 7) // 8, 1)
         state_bytes=state.to_bytes(state_length_bytes, 'little')
+
         self.body=tm_bytes+state_bytes
         self.body_length=tm_length_bytes+state_length_bytes
 
