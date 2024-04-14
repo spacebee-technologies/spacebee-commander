@@ -7,7 +7,7 @@ class take_photo(TelecommandInterface):
         self.name="take_photo"
         self.help="Take a photo"
         self.help_input="None" 
-        self.operation=10
+        self.operation=11
         self.area_version=0
         self.num_inputs=0
 
