@@ -1,0 +1,47 @@
+<div class="col-xl-8 col-lg-7">
+    <div class="card shadow mb-4">
+        <!-- Card Header -->
+        <div
+            class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Tito Vision</h6>
+        </div>
+        <!-- Card Body -->
+        <div class="card-body">
+            <div class="chart-area">
+                <div class="row" style="padding-top: 20px;">
+                    {% if server_url%}
+                    <div class="col col-md-auto col-border" id="imageListColumn">
+                        <div class="d-flex align-items-start">
+                            <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical" style="border: 1px solid #ccc; padding: 10px;">
+                                <ul class="button-list">
+                                    <button class="camera-button" id="button-take_photo"onclick="send_TC(this)"><i class="fa-solid fa-camera"></i> New image</button>
+                                </ul>
+                                <ul class="image-list">
+                                    {% for timestamp in image_files %}
+                                        <li><button class="nav-link" data-image="{{ timestamp }}" onclick="showImage(this)">{{ timestamp | timestamp_to_date }}</button>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+            
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-8 col-md-6 col-border"> 
+                        <div class="image-viewer">
+                            <div id="image-title" style="color: rgb(0, 0, 0); padding-top: 10px; text-align: center;"></div> 
+                            <img style="width: 100%; height: auto;" id="selected-image" src="">
+                        </div>
+                    </div>
+                    {% else%}
+                    <div class="col-12 col-border"> 
+                        <div class="image-viewer">
+                            <div id="image-title" style="color: rgb(0, 0, 0); padding-top: 10px; text-align: center;">Server for Tito Vision not Found</div>
+                        </div>
+                    </div>
+                    {% endif%}
+                </div>
+                <canvas id="myAreaChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>

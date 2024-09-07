@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>    
+    <title>Image Viewer</title>
+    <style>
+       
+    </style>
+</head>
+<body>
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" style="color: white;" href="#">
+            <img src="{{ url_for('static', filename='images/logosolo.png') }}" alt="Logo" width="30" height="30" class="d-inline-block align-top">
+            Tito Vision
+        </a>
+    </div>
+</nav>
+
+<div class="container p-3">
+    <div class="row" style="padding-top: 20px;">
+        {% if server_url%}
+        <div class="col col-md-auto col-border" id="imageListColumn">
+            <div class="d-flex align-items-start">
+                <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <ul class="button-list">
+                        <button class="camera-button" id="button-take_photo"onclick="send_TC(this)"><i class="fa-solid fa-camera"></i> New image</button>
+                    </ul>
+                    <ul class="image-list">
+                        {% for timestamp in image_files %}
+                            <li><button class="nav-link" data-image="{{ timestamp }}" onclick="showImage(this)">{{ timestamp | timestamp_to_date }}</button>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-6 col-lg-4 col-border"> <!-- Adjusted column width -->
+            <div class="image-viewer">
+                <div id="image-title" style="color: white; padding-top: 10px; text-align: center;"></div> <!-- Added title with center alignment -->
+                <img style="width: 100%; height: auto;" id="selected-image" src="">
+            </div>
+        </div>
+        <div class="col-6 col-lg-4 col-border"> <!-- Adjusted column width -->
+            <!-- Content for the third column -->
+        </div>  
+        {% else%}
+        <div class="col-12 col-border"> <!-- Adjusted column width -->
+            <div class="image-viewer">
+                <div id="image-title" style="color: white; padding-top: 10px; text-align: center;">Server for Tito Vision not Found</div> <!-- Added title with center alignment -->
+            </div>
+        </div>
+        {% endif%}
+    </div>
+
+    <div class="row" style="padding-top: 20px;">
+        <p><strong>Telecommand Name:</strong> {{ tc.name }}</p>
+        <p><strong>Help:</strong> {{ tc.help }}</p>
+        <p><strong>Input Options:</strong></p>
+        <select>
+            {% for key, value in tc.input.items() %}
+                <option value="{{ key }}">{{ value }}</option>
+            {% endfor %}
+        </select>
+        <p><strong>Telecommand Input Help:</strong> {{ tc.help_input }}</p>
+    </div>
+</div>
+
+
+</body>
+<script>
+showLatestImage()
+function showLatestImage() {
+    var buttons = document.querySelectorAll('.nav-link');
+    var latestButton = buttons[0]; // Get the first button initially
+
+    // Find the button with the latest timestamp
+    buttons.forEach(function(button) {
+        if (button.getAttribute('data-image') > latestButton.getAttribute('data-image')) {
+            latestButton = button;
+        }
+    });
+
+    // Show the image associated with the latest timestamp
+    showImage(latestButton);
+}
+function showImage(button) {
+    var timestamp = button.getAttribute('data-image');
+    var imgElement = document.getElementById('selected-image');
+    var buttons = document.querySelectorAll('.nav-link');
+    var titleImageElement = document.getElementById('image-title');
+
+    timestampText = button.innerText;
+    
+
+    imgElement.src = '{{ server_url }}/images/' + timestamp+'.jpg';
+    titleImageElement.innerText = timestampText;
+    // Remove active class from all buttons
+    buttons.forEach(function(btn) {
+        btn.classList.remove('active');
+    });
+
+    // Add active class to the clicked button
+    button.classList.add('active');
+}
+
+function send_TC(btn) {
+    var idTC = btn.getAttribute('id');
+    var dataToSend = {
+      idTC: idTC
+    };
+
+    // Send AJAX request to the server
+    $.ajax({
+      url: '/send_TC', // URL of the server endpoint
+      type: 'POST',
+      data: JSON.stringify(dataToSend), // Convert data to JSON string
+      contentType: 'application/json', // Set content type to JSON
+      success: function(response){
+        alert(JSON.stringify(response)); // Display the result from the server
+      },
+      error: function(error){
+        console.log(error); // Log any errors to the console
+      }
+    });
+  }
+</script>
+</html>

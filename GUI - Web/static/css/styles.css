@@ -1,0 +1,145 @@
+/* styles.css */
+
+body {
+    background-color: #ffffff; /* Dark background color for the entire page */
+    color: #000000; /* Text color for the entire page */
+}
+
+.navbar {
+    background-color: #ffffff !important; /* Slightly darker background color for the navigation bar */
+}
+
+.image-list {
+    list-style: none;
+    padding: 0;
+    width: max-content;
+    margin: 0;
+    height: 300px;
+}
+
+.image-list li {
+    cursor: pointer;
+    border-bottom: 1px solid #646464; /* Add border to list items */
+    padding: 5px 0; /* Add padding to list items */
+}
+
+.nav-link:hover {
+    background-color: rgb(178, 180, 205) !important; /* Darker color on hover */
+}
+
+.active,
+.active:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* Add custom CSS for border around columns */
+.col-border {
+    border: 2px solid #b7b7b7;
+    padding: 10px; /* Add padding around columns */
+    height: auto; /* Set height to auto */
+    overflow-y: auto; /* Add vertical scroll when content exceeds height */
+    scrollbar-color: #737373 #b3b3b3; /* thumb color track color */
+}
+
+/* Add style for image title */
+#image-title {
+    color: #000000;
+    padding-top: 10px;
+    text-align: center;
+}
+
+.commanderHelp {
+    position: relative;
+    display: inline-block;
+}
+
+.commanderHelp .commanderHelpText {
+    visibility: hidden;
+    width: 200px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Position above the icon */
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.commanderHelp .commanderHelpText::after {
+    content: "";
+    position: absolute;
+    top: 100%; /* Arrow below the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.commanderHelp:hover .commanderHelpText {
+    visibility: visible;
+    opacity: 1;
+}
+
+.commanderHelpInput {
+    position: relative;
+    display: inline-block;
+}
+
+.commanderHelpInput .commanderHelpInputText {
+    visibility: hidden;
+    width: 200px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Position above the icon */
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.commanderHelpInput .commanderHelpInputText::after {
+    content: "";
+    position: absolute;
+    top: 100%; /* Arrow below the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.commanderHelpInput:hover .commanderHelpInputText {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Initial colors for icons */
+.dynamic-check,
+.dynamic-xmark {
+    transition: color 0.5s ease; /* Smooth transition for color change */
+}
+
+.dynamic-check {
+    color: #28a745; /* Green for success */
+}
+
+.dynamic-xmark {
+    color: #ff4013; /* Red for error */
+}
+
+/* Grey-out effect */
+.greyed-out {
+    color: grey !important;
+}

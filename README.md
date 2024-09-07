@@ -2,7 +2,7 @@
 Client application to send commands to Rovertito.
 
 ## Telecommands
-In the 'Telecommands' folder, when adding a new telecommand, make sure to define these attributes in its constructor:
+In the 'src/Telecommands' folder, when adding a new telecommand, make sure to define these attributes in its constructor:
 
         *   name[string] Name of the telecommand
         *   help[string] Description and usage for the telecommand
@@ -26,4 +26,9 @@ And define the following functions:
     "Parse the output argument, where the response is a byte sequence, and return a dictionary."
     return dictonary
     ```
-  
+## Web Version
+
+To use the web version of our application, please ensure you have the following packages installed:
+
+```bash
+pip install flask requests 

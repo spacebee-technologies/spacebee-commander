@@ -1,0 +1,230 @@
+<div class="col-xl-4 col-lg-5">
+    <div class="card shadow mb-4">
+        <!-- Card Header  -->
+        <div
+            class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Navigation Commands</h6>
+        </div>
+        <!-- Card Body -->
+        <div class="card-body">
+
+                <!-- Set Mode -->
+                <div class="container" style="padding-top: 20px;" data-action="set_mode">
+                    <div class="row mb-3">
+                        <div class="col-md-auto">
+                            <strong>Set Navigation Mode</strong>  
+                            <span class="commanderHelp">
+                                <i class="fa-solid fa-circle-info"></i>
+                                <span class="commanderHelpText">{{ tc['set_mode']['help'] }}</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row mb-auto">
+                        <div class="col-md-auto">
+                            <strong>Input</strong>
+                            <span class="commanderHelpInput">
+                                <i class="fa-solid fa-circle-info"></i>
+                                <span class="commanderHelpInputText">Info</span>
+                            </span>
+                            <strong>:</strong>
+                        </div>
+                        <div class="col-md-auto">
+                            <select class="form-control dynamic-input" id="{{ tc['set_mode']['id'] }}">
+                                {% for key, value in tc['set_mode']['inputs'].items() %}
+                                    <option value="{{ key }}">{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-auto">
+                            <button class="btn btn-primary dynamic-button" data-spinner=".dynamic-spinner" data-check=".dynamic-check" data-xmark=".dynamic-xmark">Send</button>
+                        </div>
+                        <div class="col-md-auto">
+                            <div class="status-wrapper">
+                                <i class="fa-solid fa-spinner fa-spin dynamic-spinner" hidden></i>
+                                <i class="fa-solid fa-check-double dynamic-check" hidden></i>
+                                <i class="fa-solid fa-xmark fa dynamic-xmark" hidden></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <!-- Set Height -->
+                 <div class="container" style="padding-top: 20px;" data-action="set_height">
+                    <div class="row mb-3">
+                        <div class="col-md-auto">
+                            <strong>Set Height Mode</strong>  
+                            <span class="commanderHelp">
+                                <i class="fa-solid fa-circle-info"></i>
+                                <span class="commanderHelpText">{{ tc['set_height']['help'] }}</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row mb-auto">
+                        <div class="col-md-auto">
+                            <strong>Input</strong>
+                            <span class="commanderHelpInput">
+                                <i class="fa-solid fa-circle-info"></i>
+                                <span class="commanderHelpInputText">Info</span>
+                            </span>
+                            <strong>:</strong>
+                        </div>
+                        <div class="col-sm-auto">
+                            <input type="number" class="form-control dynamic-input" id="floatInput" step="0.01" placeholder="Enter a height value">                        
+                        </div>
+                        <div class="col-md-auto">
+                            <button class="btn btn-primary dynamic-button" data-spinner=".dynamic-spinner" data-check=".dynamic-check" data-xmark=".dynamic-xmark">Send</button>
+                        </div>
+                        <div class="col-md-auto">
+                            <div class="status-wrapper">
+                                <i class="fa-solid fa-spinner fa-spin dynamic-spinner" hidden></i>
+                                <i class="fa-solid fa-check-double dynamic-check" hidden></i>
+                                <i class="fa-solid fa-xmark fa dynamic-xmark" hidden></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               <!-- Start Forward Button -->
+                <div class="container" style="padding-top: 20px;" data-action="start_forward">
+                    <div class="row mb-3">
+                        <div class="col-md-auto">
+                            <strong>Start Forward</strong>
+                            <span class="commanderHelp">
+                                <i class="fa-solid fa-circle-info"></i>
+                                <span class="commanderHelpText">{{ tc['start_forward']['help'] }}</span> <!-- Updated to start_forward -->
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row mb-auto">
+                        <div class="col-md-auto">
+                            <button class="btn btn-primary dynamic-button" 
+                                    data-spinner=".dynamic-spinner" 
+                                    data-check=".dynamic-check" 
+                                    data-xmark=".dynamic-xmark"
+                                    data-input-id="{{ tc['start_forward']['id'] }}" 
+                                    data-input-value="{{ tc['start_forward']['default'] }}">
+                                Start Forward
+                            </button>
+                        </div>
+                        <div class="col-md-auto">
+                            <div class="status-wrapper">
+                                <i class="fa-solid fa-spinner fa-spin dynamic-spinner" hidden></i>
+                                <i class="fa-solid fa-check-double dynamic-check" hidden></i>
+                                <i class="fa-solid fa-xmark dynamic-xmark" hidden></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!--  -->
+             <div class="container" style="padding-top: 20px;">
+                <div class="row mb-3">
+                    <div class="col-md-auto">
+                        <strong>Payload Functions</strong>  
+                        <span class="commanderHelp">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <span class="commanderHelpText">Info</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="row mb-auto">
+                    <div class="col-md-auto">
+                        <strong>Input</strong>
+                        <span class="commanderHelpInput">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <span class="commanderHelpInputText">Info</span>
+                        </span>
+                        <strong>:</strong>
+                    </div>
+                    <div class="col-sm">
+                        <select class="form-control">
+                            <option>Retransmission</option>
+                       </select>
+                   </div>
+                    <div class="col-md-auto">
+                        <button class="btn btn-primary">Send</button>
+                        <!-- <i class="fa-solid fa-spinner fa-spin"></i> -->
+                    </div>
+                </div>
+                <!-- <div class="row">
+                    <div class="col">
+                        <button class="btn btn-primary">Send</button>
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                    </div>
+                </div> -->
+             </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Attach event listener to all dynamic buttons
+    document.querySelectorAll('.dynamic-button').forEach(button => {
+        button.addEventListener('click', function () {
+            // Use data attributes to find associated spinner, check icon, and xmark icon
+            const spinnerSelector = button.getAttribute('data-spinner');
+            const checkIconSelector = button.getAttribute('data-check');
+            const xmarkIconSelector = button.getAttribute('data-xmark');
+            const statusWrapper = button.closest('.row').querySelector('.status-wrapper');
+            const spinner = statusWrapper.querySelector(spinnerSelector);
+            const checkIcon = statusWrapper.querySelector(checkIconSelector);
+            const xmarkIcon = statusWrapper.querySelector(xmarkIconSelector);
+            
+            button.disabled = true;
+            spinner.hidden = false;  // Show spinner
+            checkIcon.hidden = true; // Ensure check icon is hidden initially
+            xmarkIcon.hidden = true; // Ensure xmark icon is hidden initially
+
+            // Get the input element and value
+            const inputElement = button.closest('.row').querySelector('.dynamic-input');
+            const inputId = inputElement.id;
+            let inputValue = '';
+    
+            // Handle different input types
+            if (inputElement.tagName === 'SELECT') {
+                inputValue = inputElement.value;
+            } else if (inputElement.tagName === 'INPUT') {
+                inputValue = inputElement.value;
+            }
+    
+            // Prepare the data to be sent
+            const data = {
+                input_id: inputId,
+                input_value: inputValue,
+            };
+    
+            secondsColor=3000;
+            fetch('/executeTC', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                checkIcon.classList.remove('greyed-out');
+                spinner.hidden = true;
+                checkIcon.hidden = false;
+                checkIcon.classList.add('fa-beat-fade');
+                setTimeout(() => {
+                    checkIcon.classList.add('greyed-out');
+                    checkIcon.classList.remove('fa-beat-fade');
+                }, secondsColor);
+
+                button.disabled = false;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                spinner.hidden = true;
+                xmarkIcon.hidden = false;
+                xmarkIcon.classList.remove('greyed-out');
+                xmarkIcon.classList.add('fa-beat-fade');
+                setTimeout(() => {
+                    xmarkIcon.classList.add('greyed-out');
+                    xmarkIcon.classList.remove('fa-beat-fade');
+                }, secondsColor);
+                alert('An error occurred. Please try again.');
+            });
+        });
+    });
+});
+</script>
