@@ -1,4 +1,10 @@
 import cmd
+import sys
+import os
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_src_dir = os.path.abspath(os.path.join(current_dir, os.pardir, 'src/'))
+sys.path.append(parent_src_dir)
 from commander import Commander
 
 class RovertitoCommander(cmd.Cmd):
