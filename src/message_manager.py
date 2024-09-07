@@ -10,7 +10,6 @@ class MessageManager:
     def make_header(self, telecommand: TelecommandInterface, type):
         timestamp=0
         MessageManager.__last_transaction_id += 1
-
         return struct.pack(self.__header_format, timestamp,
                                 type,
                                 telecommand.interaction_stage,

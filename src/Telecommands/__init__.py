@@ -1,6 +1,6 @@
 import os
 import importlib
-
+from telecommand_interface import TelecommandInterface
 # Get a list of all Python files in the current directory
 module_names = [filename[:-3] for filename in os.listdir(os.path.dirname(__file__)) if filename.endswith('.py') and filename != '__init__.py']
 

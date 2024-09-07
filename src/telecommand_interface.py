@@ -20,11 +20,12 @@ class TelecommandInterface(metaclass=SingletonMeta):
     is_error_message=False      # 8 bit	Boolean value to indicate if is an error message (0x1 for true, 0x0 for false)
     body_length = None          # 16 bits	Longitude in bytes of the message body
     body= None
-
+    
     name=""                     # string Name of the telecommand
     help=""                     # string Description and usage for the telecommand
     help_input=""               # string Description for the input arguments
     num_inputs=None             # int Number of input arguments for this command	
+    input=None
     def getOperationNumber(self):
         return self.operation
 
