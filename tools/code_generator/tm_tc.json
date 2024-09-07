@@ -1,0 +1,127 @@
+{
+  "telecommands": [
+    {
+      "name": "getTimestamp",
+      "id": "1",
+      "return": {
+        "name": "timestamp",
+        "type": "uint32_t"
+      }
+    },
+    {
+      "name": "setMode",
+      "id": "2",
+      "arguments": [
+        {
+          "name": "mode",
+          "type": "enum",
+          "enumName": "movementMode",
+          "values": ["OFF", "MANUAL", "AUTO"]
+        }
+      ]
+    },
+    {
+      "name": "setHeight",
+      "id": "3",
+      "arguments": [
+        {
+          "name": "targetAngleDegrees",
+          "type": "float"
+        }
+      ]
+    },
+    {
+      "name": "setTargetVelocity",
+      "id": "4",
+      "arguments": [
+        {
+          "name": "targetVelocity",
+          "type": "float"
+        }
+      ]
+    },
+    {
+      "name": "startForward",
+      "id": "5"
+    },
+    {
+      "name": "stopForward",
+      "id": "6"
+    },
+    {
+      "name": "enableTelemetry",
+      "id": "7",
+      "arguments": [
+        {
+          "name": "operationId",
+          "type": "uint16_t"
+        },
+        {
+          "name": "action",
+          "type": "enum",
+          "enumName": "action",
+          "values": ["DISABLE", "ENABLE"]
+        }
+      ]
+    },
+    {
+      "name": "startTurn",
+      "id": "8",
+      "arguments": [
+        {
+          "name": "turnDirection",
+          "type": "enum",
+          "enumName": "turnDirection",
+          "values": ["LEFT", "RIGHT"]
+        }
+      ]
+    },
+    {
+      "name": "stopTurn",
+      "id": "9"
+    },
+    {
+      "name": "getGitVersion",
+      "id": "10",
+      "return": {
+        "name": "version",
+        "type": "string",
+        "stringLength": "64"
+      }
+    },
+    {
+      "name": "takePhoto",
+      "id": "11"
+    }
+  ],
+  "telemetries": [
+    {
+      "name": "BatteryStatus",
+      "id": "1",
+      "parameters": [
+        {
+          "name": "voltage",
+          "type": "float"
+        },
+        {
+          "name": "current",
+          "type": "float"
+        }
+      ]
+    },
+    {
+      "name": "TemperatureReading",
+      "id": "2",
+      "parameters": [
+        {
+          "name": "sensorId",
+          "type": "uint16"
+        },
+        {
+          "name": "temperature",
+          "type": "float"
+        }
+      ]
+    }
+  ]
+}
