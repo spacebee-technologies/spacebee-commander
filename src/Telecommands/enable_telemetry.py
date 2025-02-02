@@ -32,3 +32,4 @@ class enable_telemetry(TelecommandInterface):
     def parseOutputArguments(self, response):
         print("No output arguments!")
         return None
+

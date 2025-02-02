@@ -25,3 +25,4 @@ class set_target_velocity(TelecommandInterface):
     def parseOutputArguments(self, response):
         print("No output arguments!")
         return None
+

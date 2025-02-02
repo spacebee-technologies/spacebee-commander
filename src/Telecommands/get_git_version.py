@@ -26,3 +26,4 @@ class get_git_version(TelecommandInterface):
         response_dict['version'] = response.decode('utf-8').strip()
     
         return response_dict
+

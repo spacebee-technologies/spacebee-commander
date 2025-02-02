@@ -28,3 +28,4 @@ class get_timestamp(TelecommandInterface):
         response_dict['Date'] = str(timestamp)
     
         return response_dict
+

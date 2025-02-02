@@ -24,3 +24,4 @@ class stop_turn(TelecommandInterface):
     def parseOutputArguments(self, response):
         print("No output arguments!")
         return None
+

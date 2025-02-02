@@ -24,3 +24,4 @@ class start_forward(TelecommandInterface):
     def parseOutputArguments(self, response):
         print("No output arguments!")
         return None
+

@@ -28,3 +28,4 @@ class set_mode(TelecommandInterface):
     def parseOutputArguments(self, response):
         print("No output arguments!")
         return None
+

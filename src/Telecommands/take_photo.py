@@ -24,3 +24,4 @@ class take_photo(TelecommandInterface):
     def parseOutputArguments(self, response):
         print("No output arguments!")
         return None
+
