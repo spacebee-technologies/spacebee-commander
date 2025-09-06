@@ -7,35 +7,34 @@ class RovertitoCommander(cmd.Cmd):
     prompt = '$ '
     commander = Commander()
 
+    @classmethod
     def create_CLI_telecommand(cls, telecommand):
-        method_name=f"do_{telecommand.name}"
-        method_code= f"def {method_name}(self,args):\n\
-                    telecommand=self.commander.getTelecommand({telecommand.operation})\n\
-                    try:\n\
-                        args_array=[]\n\
-                        for i in range(0,{telecommand.num_inputs}):\n\
-                            args_array.append(i)\n\
-                        args_array.append(0)\n\
-                        length_args=len(args_array)\n\
-                        args_array = args.split()\n\
-                        if len(args_array)!={telecommand.num_inputs}+1:\n\
-                            raise ValueError\n\
-                        mode=int(args_array[length_args-1])\n\
-                        inputs=' '.join(args_array[0:length_args-1])\n\
-                        telecommand.loadInputArguments(inputs)\n\
-                        self.commander.send_message(telecommand,mode)\n\
-                    except ValueError:\n\
-                        print('Argument not valid!')\n\
-                        print('should be: do_{telecommand.name} arg mode')\n\
-                        print('arg: {telecommand.help_input}')\n\
-                        print('mode: 1:Send 2:Submit 3:Request')\n\
-                "
-        method_globals = globals().copy()
-        method_globals[cls.__name__] = cls
-        exec(method_code, method_globals)
-        method_func = method_globals[method_name]
-        method_func.__doc__ = f"{telecommand.help} \n {telecommand.help_input}"
-        setattr(cls, method_name, classmethod(method_func))
+
+        def dynamic_method(self, args):
+            telecommand_instance = self.commander.getTelecommand(telecommand.operation)
+            try:
+                args_array = args.split()
+                print(args_array)
+                if len(args_array) != telecommand.num_inputs + 1:
+                    print(f"Invalid arguments: {args_array}")
+                    raise ValueError("Incorrect number of arguments.")
+
+                mode = int(args_array[-1])  
+                inputs = args_array[:-1]
+                
+                telecommand_instance.loadInputArguments(inputs)
+                self.commander.send_message(telecommand_instance, mode)
+
+            except ValueError as e:
+                print("Argument not valid!")
+                print(f"Usage: do_{telecommand.name} arg mode")
+                print(f"arg: {telecommand.help_input}")
+                print("mode: 1:Send 2:Submit 3:Request")
+
+        # Attach method dynamically
+        dynamic_method.__name__ = f"do_{telecommand.name}"
+        dynamic_method.__doc__ = f"{telecommand.help} \n {telecommand.help_input}"
+        setattr(cls, dynamic_method.__name__, dynamic_method)  # Instance method
 
     def do_exit(self, arg):
         'Exit the program.'
@@ -44,7 +43,7 @@ class RovertitoCommander(cmd.Cmd):
 
 
 if __name__ == '__main__':
-    telecommands=RovertitoCommander.commander.telecommands
+    telecommands = RovertitoCommander.commander.telecommands
     for telecommand in telecommands:
-        RovertitoCommander.create_CLI_telecommand(RovertitoCommander, telecommand)
+        RovertitoCommander.create_CLI_telecommand(telecommand)
     RovertitoCommander().cmdloop()
