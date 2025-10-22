@@ -1,6 +1,7 @@
 # telecommand_template.jinja
+import struct
 
-from telecommand_interface import TelecommandInterface, struct
+from commander.telecommand_interface import TelecommandInterface
 
 
 
