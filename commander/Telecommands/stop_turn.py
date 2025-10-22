@@ -1,19 +1,19 @@
 # telecommand_template.jinja
 
-from telecommand_interface import TelecommandInterface, struct
+from commander.telecommand_interface import TelecommandInterface
 
 
 
-class get_git_version(TelecommandInterface):
+class stop_turn(TelecommandInterface):
     
 
     def __init__(self):
-        self.name = "get_git_version"
+        self.name = "stop_turn"
         
-        self.help = "get_git_version: No input arguments"
+        self.help = "stop_turn: No input arguments"
         self.help_input = "None"
         
-        self.operation = 10
+        self.operation = 9
         self.area_version = 0
         self.num_inputs = 0
 
@@ -26,8 +26,6 @@ class get_git_version(TelecommandInterface):
 
 
     def parseOutputArguments(self, response):
-        response_dict = {}
-        response_dict['version'] = response.decode('utf-8').strip()
-    
-        return response_dict
+        print("No output arguments!")
+        return None
 

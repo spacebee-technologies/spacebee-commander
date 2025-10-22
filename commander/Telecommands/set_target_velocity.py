@@ -1,19 +1,19 @@
 # telecommand_template.jinja
 
-from telecommand_interface import TelecommandInterface, struct
+from commander.telecommand_interface import TelecommandInterface
 
 
 
-class set_height(TelecommandInterface):
+class set_target_velocity(TelecommandInterface):
     
 
     def __init__(self):
-        self.name = "set_height"
+        self.name = "set_target_velocity"
         
-        self.help = "set_height: input args= targetAngleDegrees(float)"
-        self.help_input = " targetAngleDegrees=(float)"
+        self.help = "set_target_velocity: input args= targetVelocity(float)"
+        self.help_input = " targetVelocity=(float)"
         
-        self.operation = 3
+        self.operation = 4
         self.area_version = 0
         self.num_inputs = 1
 

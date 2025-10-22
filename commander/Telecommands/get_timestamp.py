@@ -1,6 +1,6 @@
 # telecommand_template.jinja
 
-from telecommand_interface import TelecommandInterface, struct
+from commander.telecommand_interface import TelecommandInterface
 from datetime import timedelta
 
 

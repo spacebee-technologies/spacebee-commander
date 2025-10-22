@@ -1,5 +1,6 @@
 import socket
-import network_parameters as np
+
+import commander.network_parameters as np
 
 
 class UdpHandler:

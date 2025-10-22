@@ -1,19 +1,19 @@
 # telecommand_template.jinja
 
-from telecommand_interface import TelecommandInterface, struct
+from commander.telecommand_interface import TelecommandInterface
 
 
 
-class start_forward(TelecommandInterface):
+class take_photo(TelecommandInterface):
     
 
     def __init__(self):
-        self.name = "start_forward"
+        self.name = "take_photo"
         
-        self.help = "start_forward: No input arguments"
+        self.help = "take_photo: No input arguments"
         self.help_input = "None"
         
-        self.operation = 5
+        self.operation = 11
         self.area_version = 0
         self.num_inputs = 0
 

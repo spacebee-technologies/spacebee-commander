@@ -1,5 +1,6 @@
-from telecommand_interface import TelecommandInterface
 import struct
+
+from commander.telecommand_interface import TelecommandInterface
 
 
 class MessageManager:

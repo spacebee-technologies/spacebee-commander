@@ -1,19 +1,20 @@
 # telecommand_template.jinja
 
-from telecommand_interface import TelecommandInterface, struct
+from commander.telecommand_interface import TelecommandInterface
 
 
 
-class set_target_velocity(TelecommandInterface):
+class set_mode(TelecommandInterface):
     
+    enum_map_mode = {0: "OFF",1: "MANUAL",2: "AUTO"}
 
     def __init__(self):
-        self.name = "set_target_velocity"
+        self.name = "set_mode"
         
-        self.help = "set_target_velocity: input args= targetVelocity(float)"
-        self.help_input = " targetVelocity=(float)"
+        self.help = "set_mode: input args= mode(enum:0:OFF, 1:MANUAL, 2:AUTO)"
+        self.help_input = " mode=(enum:0:OFF, 1:MANUAL, 2:AUTO)"
         
-        self.operation = 4
+        self.operation = 2
         self.area_version = 0
         self.num_inputs = 1
 
@@ -26,8 +27,10 @@ class set_target_velocity(TelecommandInterface):
         
         
         arg_0 = args[0]
-        arg_0 = float(arg_0)
-        self.body += struct.pack('f', arg_0)
+        arg_0 = int(arg_0)
+        if arg_0 not in self.enum_map_mode:
+            raise ValueError(f"Invalid input for mode")
+        self.body += arg_0.to_bytes(max((arg_0.bit_length() + 7) // 8, 1), 'little')
         
 
         self.body_length = len(self.body)
