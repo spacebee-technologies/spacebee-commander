@@ -1,5 +1,5 @@
 # commander
-Client application to send commands to Rovertito.
+Client application to send commands to Spacebee apps.
 
 ## Telecommands
 In the 'Telecommands' folder, when adding a new telecommand, make sure to define these attributes in its constructor:
