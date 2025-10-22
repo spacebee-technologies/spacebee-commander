@@ -1,19 +1,19 @@
 # telecommand_template.jinja
 
-from commander.telecommand_interface import TelecommandInterface
+from spacebee_commander.telecommand_interface import TelecommandInterface
 
 
 
-class take_photo(TelecommandInterface):
+class stop_forward(TelecommandInterface):
     
 
     def __init__(self):
-        self.name = "take_photo"
+        self.name = "stop_forward"
         
-        self.help = "take_photo: No input arguments"
+        self.help = "stop_forward: No input arguments"
         self.help_input = "None"
         
-        self.operation = 11
+        self.operation = 6
         self.area_version = 0
         self.num_inputs = 0
 

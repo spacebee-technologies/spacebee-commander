@@ -1,6 +1,6 @@
-from commander.message_manager import MessageManager
-from commander.Telecommands import all_telecommands
-from commander.communication import Communication
+from spacebee_commander.message_manager import MessageManager
+from spacebee_commander.Telecommands import all_telecommands
+from spacebee_commander.communication import Communication
 
 
 class Commander:

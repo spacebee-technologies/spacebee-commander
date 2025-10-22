@@ -1,6 +1,6 @@
 import socket
 
-import commander.network_parameters as np
+import spacebee_commander.network_parameters as np
 
 
 class UdpHandler:

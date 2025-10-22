@@ -1,4 +1,4 @@
-from commander.telecommand_interface import TelecommandInterface
+from spacebee_commander.telecommand_interface import TelecommandInterface
 
 class start_homing(TelecommandInterface):
     def __init__(self):
