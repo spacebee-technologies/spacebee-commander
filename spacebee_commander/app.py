@@ -3,9 +3,9 @@ import cmd
 from spacebee_commander.commander import Commander
 
 
-class RovertitoCommander(cmd.Cmd):
+class SpacebeeCommander(cmd.Cmd):
 
-    intro = 'Welcome to RovertitoCommander v 0.1.\n Type help or ? to list commands.\n'
+    intro = 'Welcome to SpacebeeCommander vX.Y.\nType help or ? to list commands.\n'  # TODO: Get version dynamically
     prompt = '$ '
     commander = Commander()
 
@@ -45,10 +45,10 @@ class RovertitoCommander(cmd.Cmd):
 
 
 def main():
-    telecommands = RovertitoCommander.commander.telecommands
+    telecommands = SpacebeeCommander.commander.telecommands
     for telecommand in telecommands:
-        RovertitoCommander.create_CLI_telecommand(telecommand)
-    RovertitoCommander().cmdloop()
+        SpacebeeCommander.create_CLI_telecommand(telecommand)
+    SpacebeeCommander().cmdloop()
 
 
 if __name__ == '__main__':
