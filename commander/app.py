@@ -42,8 +42,12 @@ class RovertitoCommander(cmd.Cmd):
         return True
 
 
-if __name__ == '__main__':
+def main():
     telecommands = RovertitoCommander.commander.telecommands
     for telecommand in telecommands:
         RovertitoCommander.create_CLI_telecommand(telecommand)
     RovertitoCommander().cmdloop()
+
+
+if __name__ == '__main__':
+    main()
