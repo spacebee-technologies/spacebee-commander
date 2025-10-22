@@ -1,6 +1,6 @@
 import cmd
 
-from commander.commander import Commander
+from spacebee_commander.commander import Commander
 
 
 class RovertitoCommander(cmd.Cmd):

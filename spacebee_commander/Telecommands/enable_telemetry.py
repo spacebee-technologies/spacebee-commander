@@ -1,5 +1,5 @@
 # telecommand_template.jinja
-from commander.telecommand_interface import TelecommandInterface
+from spacebee_commander.telecommand_interface import TelecommandInterface
 
 
 

@@ -1,6 +1,6 @@
 import struct
 
-from commander.telecommand_interface import TelecommandInterface
+from spacebee_commander.telecommand_interface import TelecommandInterface
 
 
 class MessageManager:
