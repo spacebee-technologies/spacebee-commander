@@ -1,5 +1,7 @@
 import cmd
-from commander import Commander
+
+from commander.commander import Commander
+
 
 class RovertitoCommander(cmd.Cmd):
 
