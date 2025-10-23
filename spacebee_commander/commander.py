@@ -1,11 +1,11 @@
 from spacebee_commander.message_manager import MessageManager
-from spacebee_commander.Telecommands import all_telecommands
 from spacebee_commander.communication import Communication
+from spacebee_commander.commands_loader import load_commands
 
 
 class Commander:
 
-    telecommands = [cls() for cls in all_telecommands]
+    telecommands = load_commands().values()
     messageManager = MessageManager()
     communication = Communication()
 
