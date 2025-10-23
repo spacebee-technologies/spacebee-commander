@@ -1,5 +1,6 @@
 import socket
-import network_parameters as np
+
+import spacebee_commander.network_parameters as np
 
 
 class UdpHandler:
@@ -27,10 +28,9 @@ class UdpHandler:
 
         try:
             data, addr = sock.recvfrom(1024)
-
-            print(f"Recibido mensaje de {addr}: {data.hex()}")
-
-            return data
+            if addr[0]==self.rover_ip:
+                print(f"Recibido mensaje de {addr}: {data.hex()}")
+                return data
         except socket.timeout:
 
             print("No response received within the timeout.")

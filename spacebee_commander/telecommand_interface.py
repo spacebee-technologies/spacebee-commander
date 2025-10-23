@@ -1,6 +1,3 @@
-import struct
-
-
 class SingletonMeta(type):
     _instances = {}
 

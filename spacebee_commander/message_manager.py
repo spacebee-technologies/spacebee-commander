@@ -1,5 +1,6 @@
-from telecommand_interface import TelecommandInterface
 import struct
+
+from spacebee_commander.telecommand_interface import TelecommandInterface
 
 
 class MessageManager:
@@ -45,7 +46,7 @@ class MessageManager:
     def make_message(self,telecommand, type):
         header= self.make_header(telecommand,type)
         crc=self.make_CRC(header,telecommand.body).to_bytes(2, 'little')
-        print(f"Header:{header} + body:{telecommand.body} + crc: {crc}")
+        # print(f"Header:{header} + body:{telecommand.body} + crc: {crc}")
         return header+telecommand.body+crc
 
     def unpack(self,response):
