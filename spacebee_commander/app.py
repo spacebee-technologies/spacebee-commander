@@ -15,6 +15,12 @@ class SpacebeeCommander(cmd.Cmd):
 
         super().__init__()
 
+    def preloop(self) -> None:
+        for telecommand in self.commander.telecommands:
+            self.create_CLI_telecommand(telecommand)
+
+        return super().preloop()
+
     @classmethod
     def create_CLI_telecommand(cls, telecommand):
 
@@ -54,10 +60,6 @@ def main():
     transport = UdpHandler(np.ROVER_IP, np.ROVER_PORT_SEND, np.RECEIVER_IP, np.RECEIVER_PORT)
     commander = Commander(transport)
     cli = SpacebeeCommander(commander)
-
-    for telecommand in commander.telecommands:
-        cli.create_CLI_telecommand(telecommand)
-
     cli.cmdloop()
 
 
