@@ -1,13 +1,19 @@
 import cmd
 
+import spacebee_commander.network_parameters as np
 from spacebee_commander.commander import Commander
+from spacebee_commander.communication import UdpHandler
 
 
 class SpacebeeCommander(cmd.Cmd):
 
     intro = 'Welcome to SpacebeeCommander vX.Y.\nType help or ? to list commands.\n'  # TODO: Get version dynamically
     prompt = '$ '
-    commander = Commander()
+
+    def __init__(self, commander: Commander) -> None:
+        self.commander = commander
+
+        super().__init__()
 
     @classmethod
     def create_CLI_telecommand(cls, telecommand):
@@ -21,9 +27,9 @@ class SpacebeeCommander(cmd.Cmd):
                     print(f"Invalid arguments: {args_array}")
                     raise ValueError("Incorrect number of arguments.")
 
-                mode = int(args_array[-1])  
+                mode = int(args_array[-1])
                 inputs = args_array[:-1]
-                
+
                 telecommand_instance.loadInputArguments(inputs)
                 self.commander.send_message(telecommand_instance, mode)
 
@@ -45,10 +51,14 @@ class SpacebeeCommander(cmd.Cmd):
 
 
 def main():
-    telecommands = SpacebeeCommander.commander.telecommands
-    for telecommand in telecommands:
-        SpacebeeCommander.create_CLI_telecommand(telecommand)
-    SpacebeeCommander().cmdloop()
+    transport = UdpHandler(np.ROVER_IP, np.ROVER_PORT_SEND, np.RECEIVER_IP, np.RECEIVER_PORT)
+    commander = Commander(transport)
+    cli = SpacebeeCommander(commander)
+
+    for telecommand in commander.telecommands:
+        cli.create_CLI_telecommand(telecommand)
+
+    cli.cmdloop()
 
 
 if __name__ == '__main__':
