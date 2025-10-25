@@ -10,6 +10,7 @@ dependencies = [
 
 [tool.poetry.scripts]
 commander-udp = "spacebee_commander.commander_udp:main"
+commander-serial = "spacebee_commander.commander_serial:main"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
