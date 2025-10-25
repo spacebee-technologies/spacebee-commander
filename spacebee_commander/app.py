@@ -1,8 +1,6 @@
 import cmd
 
-import spacebee_commander.network_parameters as np
 from spacebee_commander.commander import Commander
-from spacebee_commander.communication import UdpHandler
 
 
 class SpacebeeCommander(cmd.Cmd):
@@ -54,14 +52,3 @@ class SpacebeeCommander(cmd.Cmd):
         'Exit the program.'
         print("Exiting...")
         return True
-
-
-def main():
-    transport = UdpHandler(np.ROVER_IP, np.ROVER_PORT_SEND, np.RECEIVER_IP, np.RECEIVER_PORT)
-    commander = Commander(transport)
-    cli = SpacebeeCommander(commander)
-    cli.cmdloop()
-
-
-if __name__ == '__main__':
-    main()
