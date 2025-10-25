@@ -3,7 +3,7 @@ import click
 import spacebee_commander.network_parameters as np
 
 from spacebee_commander.commander import Commander
-from spacebee_commander.communication import UdpHandler
+from spacebee_commander.udp_handler import UdpHandler
 from spacebee_commander.app import SpacebeeCommander
 
 
