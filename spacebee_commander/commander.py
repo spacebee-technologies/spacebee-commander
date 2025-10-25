@@ -1,18 +1,19 @@
 from spacebee_commander.message_manager import MessageManager
 from spacebee_commander.communication import Communication
 from spacebee_commander.commands_loader import load_commands
+import spacebee_commander.network_parameters as np
 
 
 class Commander:
-
     telecommands = load_commands().values()
     messageManager = MessageManager()
     communication = Communication()
 
-    def __init__(self):
-        pass
+    def __init__(self, send_ip=np.ROVER_IP, send_port=np.ROVER_PORT_SEND,
+                 receiver_ip=np.RECEIVER_IP, response_port=np.RECEIVER_PORT):
+        self.communication = Communication(send_ip, send_port, receiver_ip, response_port
 
-    def getTelecommand(self,id):
+    def getTelecommand(self, id):
         "Retrieve the telecommand using its telecommand ID."
         for telecommand in self.telecommands:
             if telecommand.getOperationNumber() == id:
@@ -20,18 +21,18 @@ class Commander:
 
     def send(self, telecommand):
         "SEND. Consists of a single message sent without expecting a response."
-        interaction_type=1
-        message = self.messageManager.make_message(telecommand,interaction_type)
+        interaction_type = 1
+        message = self.messageManager.make_message(telecommand, interaction_type)
         self.communication.send(message)
 
     def submit(self, telecommand):
-        "SUBMIT. It consists of a message with an acknowledgement response. It return True if ACK is okay and False otherwise "
-        interaction_type=2
-        message = self.messageManager.make_message(telecommand,interaction_type)
+        "SUBMIT. It consists of a message with an acknowledgement response. It return True if ACK is okay and False otherwise"
+        interaction_type = 2
+        message = self.messageManager.make_message(telecommand, interaction_type)
         self.communication.send(message)
-        response=self.communication.receive()
+        response = self.communication.receive()
         if response != None:
-            ack=self.messageManager.unpack(response)
+            ack = self.messageManager.unpack(response)
 
             if ack:
                 print("ACK")
@@ -39,33 +40,33 @@ class Commander:
             else:
                 print("No ACK")
                 return False
-        else: 
+        else:
             print("Error no response receive")
             return False
 
     def request(self, telecommand):
         "REQUEST. In of a message with a response message. It returns the message if everything is okay, False otherwise"
 
-        interaction_type=3
-        message = self.messageManager.make_message(telecommand,interaction_type)
+        interaction_type = 3
+        message = self.messageManager.make_message(telecommand, interaction_type)
         self.communication.send(message)
 
-        response=self.communication.receive()
+        response = self.communication.receive()
 
-        if response!= None:
-            unpack_response=self.messageManager.unpack(response)
-            response_dict=telecommand.parseOutputArguments(unpack_response)
+        if response != None:
+            unpack_response = self.messageManager.unpack(response)
+            response_dict = telecommand.parseOutputArguments(unpack_response)
             print(f"Response_dict: {response_dict}")
             return response_dict
         else:
             print("Error no response receive")
             return False
 
-    def send_message(self,telecommand,interaction_type):
+    def send_message(self, telecommand, interaction_type):
         "Receive a telecommand and interaction type and then send the corresponding interaction."
-        if interaction_type==1:
+        if interaction_type == 1:
             return self.send(telecommand)
-        elif interaction_type==2:
+        elif interaction_type == 2:
             return self.submit(telecommand)
-        elif interaction_type==3:
+        elif interaction_type == 3:
             return self.request(telecommand)
