@@ -1,9 +1,17 @@
+import abc
 import socket
 
-import spacebee_commander.network_parameters as np
+
+class Communication(abc.ABC):
+
+    @abc.abstractmethod
+    def send(self, message): ...
+
+    @abc.abstractmethod
+    def receive(self): ...
 
 
-class UdpHandler:
+class UdpHandler(Communication):
 
     def __init__(self,ip,port_send,receiver_ip,port_response):
         self.rover_ip = ip
@@ -38,15 +46,3 @@ class UdpHandler:
             return None
         finally:
             sock.close()
-
-
-class Communication:
-
-    def __init__(self):
-        self.udp=UdpHandler(np.ROVER_IP,np.ROVER_PORT_SEND,np.RECEIVER_IP,np.RECEIVER_PORT)
-
-    def send(self,message):
-        self.udp.send(message)
-
-    def receive(self):
-        return self.udp.receive()

@@ -1,6 +1,7 @@
 from spacebee_commander.message_manager import MessageManager
-from spacebee_commander.communication import Communication
+from spacebee_commander.communication import UdpHandler
 from spacebee_commander.commands_loader import load_commands
+import spacebee_commander.network_parameters as np
 
 
 class Commander:
@@ -9,7 +10,7 @@ class Commander:
     messageManager = MessageManager()
 
     def __init__(self):
-        self.communication = Communication()
+        self.communication = UdpHandler(np.ROVER_IP,np.ROVER_PORT_SEND,np.RECEIVER_IP,np.RECEIVER_PORT)
 
     def getTelecommand(self,id):
         "Retrieve the telecommand using its telecommand ID."
