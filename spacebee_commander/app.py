@@ -7,7 +7,17 @@ class SpacebeeCommander(cmd.Cmd):
 
     intro = 'Welcome to SpacebeeCommander vX.Y.\nType help or ? to list commands.\n'  # TODO: Get version dynamically
     prompt = '$ '
-    commander = Commander()
+
+    def __init__(self, commander: Commander) -> None:
+        self.commander = commander
+
+        super().__init__()
+
+    def preloop(self) -> None:
+        for telecommand in self.commander.telecommands:
+            self.create_CLI_telecommand(telecommand)
+
+        return super().preloop()
 
     @classmethod
     def create_CLI_telecommand(cls, telecommand):
@@ -21,9 +31,9 @@ class SpacebeeCommander(cmd.Cmd):
                     print(f"Invalid arguments: {args_array}")
                     raise ValueError("Incorrect number of arguments.")
 
-                mode = int(args_array[-1])  
+                mode = int(args_array[-1])
                 inputs = args_array[:-1]
-                
+
                 telecommand_instance.loadInputArguments(inputs)
                 self.commander.send_message(telecommand_instance, mode)
 
@@ -42,14 +52,3 @@ class SpacebeeCommander(cmd.Cmd):
         'Exit the program.'
         print("Exiting...")
         return True
-
-
-def main():
-    telecommands = SpacebeeCommander.commander.telecommands
-    for telecommand in telecommands:
-        SpacebeeCommander.create_CLI_telecommand(telecommand)
-    SpacebeeCommander().cmdloop()
-
-
-if __name__ == '__main__':
-    main()
