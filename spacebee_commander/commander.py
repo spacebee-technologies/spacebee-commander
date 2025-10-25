@@ -7,10 +7,9 @@ class Commander:
 
     telecommands = load_commands().values()
     messageManager = MessageManager()
-    communication = Communication()
 
     def __init__(self):
-        pass
+        self.communication = Communication()
 
     def getTelecommand(self,id):
         "Retrieve the telecommand using its telecommand ID."
