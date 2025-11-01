@@ -10,7 +10,7 @@ class TelecommandInterface(abc.ABC):
     area_version = None       # 16 bits: Protocol version
     is_error_message = False  # 8 bit: Boolean value to indicate if is an error message (0x1 for true, 0x0 for false)
     body_length = None        # 16 bits: Longitude in bytes of the message body
-    body = None
+    body = b''
 
     name = ""                 # string: Name of the telecommand
     help = ""                 # string: Description and usage for the telecommand
