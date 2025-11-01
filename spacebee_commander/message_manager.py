@@ -1,6 +1,16 @@
 import struct
+import enum
 
 from spacebee_commander.telecommand_interface import TelecommandInterface
+
+
+class InteractionType(enum.IntEnum):
+    SEND = 1
+    SUBMIT = 2
+    REQUEST = 3
+    INVOKE = 4
+    PROGRESS = 5
+    PUBSUB = 6
 
 
 class MessageManager:
@@ -8,7 +18,7 @@ class MessageManager:
     __header_format='<QHBQHHHBH'
     __last_transaction_id=0
 
-    def make_header(self, telecommand: TelecommandInterface, type):
+    def _make_header(self, telecommand: TelecommandInterface, type: InteractionType):
         timestamp=0
         MessageManager.__last_transaction_id += 1
 
@@ -43,38 +53,35 @@ class MessageManager:
         else:
             return False
 
-    def make_message(self,telecommand, type):
-        header= self.make_header(telecommand,type)
-        crc=self.make_CRC(header,telecommand.body).to_bytes(2, 'little')
-        # print(f"Header:{header} + body:{telecommand.body} + crc: {crc}")
-        return header+telecommand.body+crc
+    def make_message(self, telecommand: TelecommandInterface, type: InteractionType):
+        header = self._make_header(telecommand, type)
+        crc = self.make_CRC(header, telecommand.body).to_bytes(2, 'little')
+        return header + telecommand.body + crc
 
-    def unpack(self,response):
+    def unpack(self, response: bytes):
         header_size = struct.calcsize(self.__header_format)
         header_data = response[:header_size]
         timestamp, interaction_type, interaction_stage, transaction_id, service, operation, area_version, is_error_message, body_length = struct.unpack(self.__header_format, header_data)
         body_response = response[header_size:-2]
         crc_response = response[-2:]
 
-        if interaction_stage!=1:   #Checkea que el interaction type es una respuesta del mensaje
+        if interaction_stage != 1:  # Check for a command response
             if not is_error_message:
 
                 if self.check_CRC(header_data,body_response,crc_response):
 
-                    if interaction_type==2:
+                    if interaction_type == InteractionType.SUBMIT:
                         print(f"body:{body_response}")
                         if not body_response:
                             return True
                         else:
-                            return False          #ACK is empty body
+                            return False  # ACK has empty body
 
-                    elif interaction_type==3:
-                        #Search for a telecommand with operation and execute the function parseOutputArguments
+                    elif interaction_type == InteractionType.REQUEST:
                         return body_response
 
-                    elif interaction_type==6:
-                        #It is telemetry
-                        print("Error is telemetry")
+                    elif interaction_type == InteractionType.PUBSUB:
+                        print("Message is telemetry")
 
                 else:
                     print("CRC check failed. Error in the communication detected.")
