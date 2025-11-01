@@ -11,7 +11,6 @@ class TelecommandInterface(abc.ABC):
     name = ""                 # string: Name of the telecommand
     help = ""                 # string: Description and usage for the telecommand
     help_input = ""           # string: Description for the input arguments
-    num_inputs: int = 0       # int: Number of input arguments for this command
 
     def getOperationNumber(self):
         return self.operation

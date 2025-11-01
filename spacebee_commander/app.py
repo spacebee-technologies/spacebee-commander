@@ -33,15 +33,16 @@ class SpacebeeCommander(cmd.Cmd):
                 print(f"Telecommand with ID {telecommand.operation} not found.")
                 return
             try:
+                input_type = telecommand.getInputType()
+
                 args_array = args.split()
                 print(args_array)
-                if len(args_array) != telecommand.num_inputs + 1:
+                if len(args_array) != len(dataclasses.fields(input_type)) + 1:
                     print(f"Invalid arguments: {args_array}")
                     raise ValueError("Incorrect number of arguments.")
 
                 mode = InteractionType(int(args_array[-1]))
                 inputs = args_array[:-1]
-                input_type = telecommand.getInputType()
                 parsed_args = parse_cli_args(input_type, inputs)
                 telecommand_instance.loadInputArguments(parsed_args)
                 self.commander.send_message(telecommand_instance, mode)

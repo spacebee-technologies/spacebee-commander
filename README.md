@@ -8,8 +8,6 @@ In the 'Telecommands' folder, when adding a new telecommand, make sure to define
         *   help[string] Description and usage for the telecommand
         *   help_input[string] Description for the input arguments
         *   operation[16 bits] Unique identifier for a given telemetry or telecommand
-        *   area_version[16 bits] Protocol version
-        *   num_inputs[int] Number of input arguments for this command
 
 And define the following functions:
 
