@@ -1,6 +1,7 @@
 import cmd
 
 from spacebee_commander.commander import Commander
+from spacebee_commander.telecommand_interface import TelecommandInterface
 
 
 class SpacebeeCommander(cmd.Cmd):
@@ -20,7 +21,7 @@ class SpacebeeCommander(cmd.Cmd):
         return super().preloop()
 
     @classmethod
-    def create_CLI_telecommand(cls, telecommand):
+    def create_CLI_telecommand(cls, telecommand: TelecommandInterface):
 
         def dynamic_method(self, args):
             telecommand_instance = self.commander.getTelecommand(telecommand.operation)
