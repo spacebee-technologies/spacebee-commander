@@ -5,7 +5,7 @@ from typing import Any, Type
 
 class TelecommandInterface(abc.ABC):
 
-    operation = None          # 16 bits: Unique identifier for a given telemetry or telecommand
+    operation: int = 0        # 16 bits: Unique identifier for a given telemetry or telecommand
     body_length = None        # 16 bits: Longitude in bytes of the message body
     body = b''
     name = ""                 # string: Name of the telecommand

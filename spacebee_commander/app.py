@@ -1,7 +1,11 @@
 import cmd
+import dataclasses
+import enum
+import typing
 
 from spacebee_commander.commander import Commander
 from spacebee_commander.telecommand_interface import TelecommandInterface
+from spacebee_commander.message_manager import InteractionType
 
 
 class SpacebeeCommander(cmd.Cmd):
@@ -23,8 +27,11 @@ class SpacebeeCommander(cmd.Cmd):
     @classmethod
     def create_CLI_telecommand(cls, telecommand: TelecommandInterface):
 
-        def dynamic_method(self, args):
+        def dynamic_method(self: SpacebeeCommander, args):
             telecommand_instance = self.commander.getTelecommand(telecommand.operation)
+            if telecommand_instance is None:
+                print(f"Telecommand with ID {telecommand.operation} not found.")
+                return
             try:
                 args_array = args.split()
                 print(args_array)
@@ -32,10 +39,11 @@ class SpacebeeCommander(cmd.Cmd):
                     print(f"Invalid arguments: {args_array}")
                     raise ValueError("Incorrect number of arguments.")
 
-                mode = int(args_array[-1])
+                mode = InteractionType(int(args_array[-1]))
                 inputs = args_array[:-1]
-
-                telecommand_instance.loadInputArguments(inputs)
+                input_type = telecommand.getInputType()
+                parsed_args = parse_cli_args(input_type, inputs)
+                telecommand_instance.loadInputArguments(parsed_args)
                 self.commander.send_message(telecommand_instance, mode)
 
             except ValueError as e:
@@ -53,3 +61,44 @@ class SpacebeeCommander(cmd.Cmd):
         'Exit the program.'
         print("Exiting...")
         return True
+
+
+def parse_cli_args(dataclass_type: type, arg_string: str):
+    """Parse CLI args string into a dataclass instance."""
+    tokens = arg_string.split()
+    fields = dataclasses.fields(dataclass_type)
+
+    # Resolve real runtime types (handles string annotations from __future__)
+    type_hints = typing.get_type_hints(dataclass_type)
+
+    if len(tokens) != len(fields):
+        raise ValueError(
+            f"Expected {len(fields)} arguments but got {len(tokens)}"
+        )
+
+    parsed_values = []
+    for token, field in zip(tokens, fields):
+        field_type = type_hints[field.name]
+
+        # Handle enums
+        if isinstance(field_type, type) and issubclass(field_type, enum.Enum):
+            try:
+                value = field_type[token]
+            except KeyError:
+                valid = ", ".join([e.name for e in field_type])
+                raise ValueError(
+                    f"Invalid enum '{token}' for {field.name}. "
+                    f"Expected one of: {valid}"
+                )
+            parsed_values.append(value)
+            continue
+
+        # Handle integers (supports hex, e.g. 0xFF)
+        if field_type is int:
+            parsed_values.append(int(token, 0))
+            continue
+
+        # Default case: just cast
+        parsed_values.append(field_type(token))
+
+    return dataclass_type(*parsed_values)
