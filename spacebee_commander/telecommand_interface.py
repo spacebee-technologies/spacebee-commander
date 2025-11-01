@@ -1,5 +1,7 @@
 import abc
 
+from typing import Any, Type
+
 
 class TelecommandInterface(abc.ABC):
 
@@ -9,17 +11,20 @@ class TelecommandInterface(abc.ABC):
     name = ""                 # string: Name of the telecommand
     help = ""                 # string: Description and usage for the telecommand
     help_input = ""           # string: Description for the input arguments
-    num_inputs = None         # int: Number of input arguments for this command
+    num_inputs: int = 0       # int: Number of input arguments for this command
 
     def getOperationNumber(self):
         return self.operation
 
+    @classmethod
     @abc.abstractmethod
-    def loadInputArguments(self, raw):
-        "Load input arguments into the body and calculate the body length."
-        ...
+    def getInputType(cls) -> Type[Any]:
+        """Return the dataclass type expected as input arguments."""
 
     @abc.abstractmethod
-    def parseOutputArguments(self, response: bytes):
-        "Parse the output argument, where the response is a byte sequence, and return a dictionary."
-        ...
+    def loadInputArguments(self, args: Any) -> None:
+        """Load input arguments into the body and calculate the body length."""
+
+    @abc.abstractmethod
+    def parseOutputArguments(self, response: bytes) -> Any:
+        """Parse the output arguments from the raw bytes response."""
