@@ -1,6 +1,6 @@
 import abc
 
-from typing import Any, Type
+from typing import Any, Type, Optional
 
 
 class TelecommandInterface(abc.ABC):
@@ -17,13 +17,13 @@ class TelecommandInterface(abc.ABC):
 
     @classmethod
     @abc.abstractmethod
-    def getInputType(cls) -> Type[Any]:
-        """Return the dataclass type expected as input arguments."""
+    def getInputType(cls) -> Optional[Type[Any]]:
+        """Return the dataclass type expected as input arguments, or None if none."""
 
     @abc.abstractmethod
-    def loadInputArguments(self, args: Any) -> None:
-        """Load input arguments into the body and calculate the body length."""
+    def loadInputArguments(self, args: Optional[Any]) -> None:
+        """Load input arguments into the body. Args may be None if no input exists."""
 
     @abc.abstractmethod
-    def parseOutputArguments(self, response: bytes) -> Any:
-        """Parse the output arguments from the raw bytes response."""
+    def parseOutputArguments(self, response: bytes) -> Optional[Any]:
+        """Parse output arguments from raw bytes, or return None if no output."""

@@ -33,21 +33,28 @@ class SpacebeeCommander(cmd.Cmd):
                 print(f"Telecommand with ID {telecommand.operation} not found.")
                 return
             try:
+                args_array = args.split()
                 input_type = telecommand.getInputType()
 
-                args_array = args.split()
-                print(args_array)
-                if len(args_array) != len(dataclasses.fields(input_type)) + 1:
-                    print(f"Invalid arguments: {args_array}")
-                    raise ValueError("Incorrect number of arguments.")
+                if input_type:
+                    if len(args_array) != len(dataclasses.fields(input_type)) + 1:
+                        print(f"Invalid arguments: {args_array}")
+                        raise ValueError("Incorrect number of arguments.")
+
+                    inputs = args_array[:-1]
+                    parsed_args = parse_cli_args(input_type, inputs)
+                    telecommand_instance.loadInputArguments(parsed_args)
+                else:
+                    if len(args_array) != 1:
+                        print(f"Invalid arguments: {args_array}")
+                        raise ValueError("Incorrect number of arguments.")
+                    telecommand_instance.loadInputArguments(None)
 
                 mode = InteractionType(int(args_array[-1]))
-                inputs = args_array[:-1]
-                parsed_args = parse_cli_args(input_type, inputs)
-                telecommand_instance.loadInputArguments(parsed_args)
                 self.commander.send_message(telecommand_instance, mode)
 
             except ValueError as e:
+                print(e)
                 print("Argument not valid!")
                 print(f"Usage: do_{telecommand.name} arg mode")
                 print(f"arg: {telecommand.help_input}")
@@ -64,9 +71,8 @@ class SpacebeeCommander(cmd.Cmd):
         return True
 
 
-def parse_cli_args(dataclass_type: type, arg_string: str):
+def parse_cli_args(dataclass_type: type, tokens: typing.List[str]):
     """Parse CLI args string into a dataclass instance."""
-    tokens = arg_string.split()
     fields = dataclasses.fields(dataclass_type)
 
     # Resolve real runtime types (handles string annotations from __future__)
