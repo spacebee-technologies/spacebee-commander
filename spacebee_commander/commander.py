@@ -12,10 +12,10 @@ class Commander:
     def __init__(self, transport: Communication):
         self.communication = transport
 
-    def getTelecommand(self, id: int) -> TelecommandInterface | None:
+    def get_telecommand(self, id: int) -> TelecommandInterface | None:
         "Retrieve the telecommand using its telecommand ID."
         for telecommand in self.telecommands:
-            if telecommand.getOperationNumber() == id:
+            if telecommand.get_operation_number() == id:
                 return telecommand
 
     def send(self, telecommand: TelecommandInterface):
@@ -52,9 +52,9 @@ class Commander:
         if response != None:
             unpack_response = self.messageManager.unpack(response)
             if isinstance(unpack_response, bytes):
-                response_dict = telecommand.parseOutputArguments(unpack_response)
-                print(f"Response_dict: {response_dict}")
-                return response_dict
+                parsed_response = telecommand.parse_output_arguments(unpack_response)
+                print(f"Command response: {parsed_response}")
+                return parsed_response
             else:
                 print("Error in the response")
                 return False
