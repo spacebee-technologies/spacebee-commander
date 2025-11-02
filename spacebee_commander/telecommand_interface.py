@@ -12,18 +12,18 @@ class TelecommandInterface(abc.ABC):
     help = ""                 # string: Description and usage for the telecommand
     help_input = ""           # string: Description for the input arguments
 
-    def getOperationNumber(self):
+    def get_operation_number(self):
         return self.operation
 
     @classmethod
     @abc.abstractmethod
-    def getInputType(cls) -> Optional[Type[Any]]:
+    def get_input_type(cls) -> Optional[Type[Any]]:
         """Return the dataclass type expected as input arguments, or None if none."""
 
     @abc.abstractmethod
-    def loadInputArguments(self, args: Optional[Any]) -> None:
+    def load_input_arguments(self, args: Optional[Any]) -> None:
         """Load input arguments into the body. Args may be None if no input exists."""
 
     @abc.abstractmethod
-    def parseOutputArguments(self, response: bytes) -> Optional[Any]:
+    def parse_output_arguments(self, response: bytes) -> Optional[Any]:
         """Parse output arguments from raw bytes, or return None if no output."""
