@@ -25,12 +25,12 @@ class Commander:
                 return telecommand
 
     def send(self, telecommand: TelecommandInterface):
-        "SEND. Consists of a single message sent without expecting a response."
+        """Consists of a single message sent without expecting a response."""
         message = self.messageManager.make_message(telecommand, InteractionType.SEND)
         self.communication.send(message)
 
     def submit(self, telecommand: TelecommandInterface):
-        "SUBMIT. It consists of a message with an acknowledgement response. It return True if ACK is okay and False otherwise "
+        """It consists of a message with an acknowledgement response. It return True if ACK is okay and False otherwise."""
         message = self.messageManager.make_message(telecommand, InteractionType.SUBMIT)
         self.communication.send(message)
         response=self.communication.receive()
@@ -48,12 +48,12 @@ class Commander:
             return False
 
     def request(self, telecommand: TelecommandInterface):
-        "REQUEST. In of a message with a response message. It returns the message if everything is okay, False otherwise"
+        """In of a message with a response message. It returns the message if everything is okay, False otherwise."""
 
         message = self.messageManager.make_message(telecommand, InteractionType.REQUEST)
         self.communication.send(message)
 
-        response=self.communication.receive()
+        response = self.communication.receive()
 
         if response != None:
             unpack_response = self.messageManager.unpack(response)
@@ -69,7 +69,7 @@ class Commander:
             return False
 
     def send_message(self, telecommand: TelecommandInterface, interaction_type: InteractionType):
-        "Receive a telecommand and interaction type and then send the corresponding interaction."
+        """Receive a telecommand and interaction type and then send the corresponding interaction."""
         if interaction_type == InteractionType.SEND:
             return self.send(telecommand)
         elif interaction_type == InteractionType.SUBMIT:
