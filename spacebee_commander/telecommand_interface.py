@@ -1,34 +1,29 @@
-class SingletonMeta(type):
-    _instances = {}
+import abc
 
-    def __call__(cls, *args, **kwargs):
-        if cls not in cls._instances:
-            cls._instances[cls] = super().__call__(*args, **kwargs)
-        return cls._instances[cls]
+from typing import Any, Type, Optional
 
 
-class TelecommandInterface(metaclass=SingletonMeta):
+class TelecommandInterface(abc.ABC):
 
-    interaction_stage = 1       # 8 bits	1 or 2 according to message order
-    transaction_id = None       # Unique incremental identifier
-    service= 1                  # 0 for telemetries (TM) or 1 for telecommands (TC)
-    operation=None              # 16 bits	Unique identifier for a given telemetry or telecommand
-    area_version=None           # 16 bits	Protocol version
-    is_error_message=False      # 8 bit	Boolean value to indicate if is an error message (0x1 for true, 0x0 for false)
-    body_length = None          # 16 bits	Longitude in bytes of the message body
-    body= None
+    operation: int = 0        # 16 bits: Unique identifier for a given telemetry or telecommand
+    body_length = None        # 16 bits: Longitude in bytes of the message body
+    body = b''
+    name = ""                 # string: Name of the telecommand
+    help = ""                 # string: Description and usage for the telecommand
+    help_input = ""           # string: Description for the input arguments
 
-    name=""                     # string Name of the telecommand
-    help=""                     # string Description and usage for the telecommand
-    help_input=""               # string Description for the input arguments
-    num_inputs=None             # int Number of input arguments for this command	
-    def getOperationNumber(self):
+    def get_operation_number(self):
         return self.operation
 
-    def loadInputArguments(self,arg):
-        "Load input arguments into the body and calculate the body length."
-        raise NotImplementedError("Telecommand must implement this method")
+    @classmethod
+    @abc.abstractmethod
+    def get_input_type(cls) -> Optional[Type[Any]]:
+        """Return the dataclass type expected as input arguments, or None if none."""
 
-    def parseOutputArguments(self,response):
-        "Parse the output argument, where the response is a byte sequence, and return a dictionary."
-        raise NotImplementedError("Telecommand must implement this method")
+    @abc.abstractmethod
+    def load_input_arguments(self, args: Optional[Any]) -> None:
+        """Load input arguments into the body. Args may be None if no input exists."""
+
+    @abc.abstractmethod
+    def parse_output_arguments(self, response: bytes) -> Optional[Any]:
+        """Parse output arguments from raw bytes, or return None if no output."""
