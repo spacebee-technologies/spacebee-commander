@@ -21,7 +21,7 @@ while True:
     commander = Commander(transport)
 
     id = 1
-    tc_test = commander.get_telecommand(id)
+    tc_test = commander.get_telecommand_by_id(id)
     if tc_test is None:
         print(f"Telecommand with ID {id} not found.")
         continue

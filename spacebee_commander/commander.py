@@ -12,10 +12,16 @@ class Commander:
     def __init__(self, transport: Communication):
         self.communication = transport
 
-    def get_telecommand(self, id: int) -> TelecommandInterface | None:
-        "Retrieve the telecommand using its telecommand ID."
+    def get_telecommand_by_id(self, id: int) -> TelecommandInterface | None:
+        """Retrieve the telecommand using its telecommand ID."""
         for telecommand in self.telecommands:
             if telecommand.get_operation_number() == id:
+                return telecommand
+
+    def get_telecommand_by_name(self, name: str) -> TelecommandInterface | None:
+        """Retrieve the telecommand by its name."""
+        for telecommand in self.telecommands:
+            if telecommand.get_name() == name:
                 return telecommand
 
     def send(self, telecommand: TelecommandInterface):
