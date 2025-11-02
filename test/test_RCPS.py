@@ -1,36 +1,43 @@
-#The test evaluates packet loss during the transmission of telecommands by continuously sending requests,
-# monitoring responses.
-import sys
-import os
+"""
+The test evaluates packet loss during the transmission of telecommands by
+continuously sending requests, monitoring responses.
+"""
 import time
 
-current_dir = os.path.dirname(os.path.abspath(__file__))
-parent_src_dir = os.path.abspath(os.path.join(current_dir, os.pardir, 'src'))
-sys.path.append(parent_src_dir)
+import spacebee_commander.network_parameters as np
+
 from spacebee_commander.commander import Commander
+from spacebee_commander.udp_handler import UdpHandler
 
 
-contador=0
-batch=50
-recibidos=0
+count = 0
+batch = 50
+received = 0
+
 
 while True:
-    commander = Commander()
 
-    tc_test=commander.getTelecommand(1)  #use getTimestamp() TC
+    transport = UdpHandler(np.ROVER_IP, np.ROVER_PORT_SEND, np.RECEIVER_IP, np.RECEIVER_PORT)
+    commander = Commander(transport)
 
-    delay=0.01
+    id = 1
+    tc_test = commander.getTelecommand(id)
+    if tc_test is None:
+        print(f"Telecommand with ID {id} not found.")
+        continue
 
-    for i in range(0,batch):
-        tc_test.loadInputArguments(None)
-        response=commander.send_message(tc_test,3) #3:Request protocol 
+    delay = 0.01
+
+    for _ in range(0, batch):
+        tc_test.load_input_arguments(None)
+        response = commander.request(tc_test)
         if response:
-            recibidos+=1
+            received += 1
         time.sleep(delay)
-    contador=contador+batch
+    count += batch
 
     print("\n\n------------------------------------------------")
-    print(f"Send {contador} packages")
-    print(f"{recibidos/contador*100}% packages receive  \n\n")
+    print(f"Send {count} packages")
+    print(f"{received/count*100}% packages received\n\n")
 
     time.sleep(10)
