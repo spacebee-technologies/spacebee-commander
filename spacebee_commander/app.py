@@ -28,7 +28,7 @@ class SpacebeeCommander(cmd.Cmd):
     def create_CLI_telecommand(cls, telecommand: TelecommandInterface):
 
         def dynamic_method(self: SpacebeeCommander, args):
-            telecommand_instance = self.commander.getTelecommand(telecommand.operation)
+            telecommand_instance = self.commander.get_telecommand(telecommand.operation)
             if telecommand_instance is None:
                 print(f"Telecommand with ID {telecommand.operation} not found.")
                 return
