@@ -5,15 +5,21 @@ from typing import Any, Type, Optional
 
 class TelecommandInterface(abc.ABC):
 
-    operation: int = 0        # 16 bits: Unique identifier for a given telemetry or telecommand
-    body_length = None        # 16 bits: Longitude in bytes of the message body
-    body = b''
-    name = ""                 # string: Name of the telecommand
-    help = ""                 # string: Description and usage for the telecommand
-    help_input = ""           # string: Description for the input arguments
+    operation: int = 0
+    name = ""
 
-    def get_operation_number(self):
+    body_length: int = 0
+    body = b''
+
+    # TODO: Shall be CLI level attributes?
+    help = ""
+    help_input = ""
+
+    def get_operation_number(self) -> int:
         return self.operation
+
+    def get_name(self) -> str:
+        return self.name
 
     @classmethod
     @abc.abstractmethod
