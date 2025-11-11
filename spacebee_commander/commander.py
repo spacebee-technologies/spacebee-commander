@@ -1,11 +1,10 @@
-from spacebee_commander.message_manager import MessageManager, InteractionType
-from spacebee_commander.communication import Communication
 from spacebee_commander.commands_loader import load_commands
+from spacebee_commander.communication import Communication
+from spacebee_commander.message_manager import InteractionType, MessageManager
 from spacebee_commander.telecommand_interface import TelecommandInterface
 
 
 class Commander:
-
     telecommands = load_commands().values()
     message_manager = MessageManager()
 
@@ -33,9 +32,9 @@ class Commander:
         """It consists of a message with an acknowledgement response. It return True if ACK is okay and False otherwise."""
         message = self.message_manager.make_message(telecommand, InteractionType.SUBMIT)
         self.communication.send(message)
-        response=self.communication.receive()
+        response = self.communication.receive()
         if response != None:
-            ack=self.message_manager.unpack(response)
+            ack = self.message_manager.unpack(response)
 
             if ack:
                 print("ACK")
@@ -43,14 +42,16 @@ class Commander:
             else:
                 print("No ACK")
                 return False
-        else: 
+        else:
             print("Error no response receive")
             return False
 
     def request(self, telecommand: TelecommandInterface):
         """In of a message with a response message. It returns the message if everything is okay, False otherwise."""
 
-        message = self.message_manager.make_message(telecommand, InteractionType.REQUEST)
+        message = self.message_manager.make_message(
+            telecommand, InteractionType.REQUEST
+        )
         self.communication.send(message)
 
         response = self.communication.receive()
@@ -68,7 +69,9 @@ class Commander:
             print("Error no response receive")
             return False
 
-    def send_message(self, telecommand: TelecommandInterface, interaction_type: InteractionType):
+    def send_message(
+        self, telecommand: TelecommandInterface, interaction_type: InteractionType
+    ):
         """Receive a telecommand and interaction type and then send the corresponding interaction."""
         if interaction_type == InteractionType.SEND:
             return self.send(telecommand)
@@ -76,3 +79,6 @@ class Commander:
             return self.submit(telecommand)
         elif interaction_type == InteractionType.REQUEST:
             return self.request(telecommand)
+        else:
+            print("Interaction type not implemented")
+            return False
