@@ -33,9 +33,9 @@ class Commander:
         """It consists of a message with an acknowledgement response. It return True if ACK is okay and False otherwise."""
         message = self.message_manager.make_message(telecommand, InteractionType.SUBMIT)
         self.communication.send(message)
-        response=self.communication.receive()
+        response = self.communication.receive()
         if response != None:
-            ack=self.message_manager.unpack(response)
+            ack = self.message_manager.unpack(response)
 
             if ack:
                 print("ACK")
@@ -43,7 +43,7 @@ class Commander:
             else:
                 print("No ACK")
                 return False
-        else: 
+        else:
             print("Error no response receive")
             return False
 
@@ -57,6 +57,11 @@ class Commander:
 
         if response != None:
             unpack_response = self.message_manager.unpack(response)
+
+            if unpack_response is None:
+                print("Error: failed to unpack response")
+                return False
+
             if isinstance(unpack_response, bytes):
                 parsed_response = telecommand.parse_output_arguments(unpack_response)
                 print(f"Command response: {parsed_response}")
@@ -76,3 +81,6 @@ class Commander:
             return self.submit(telecommand)
         elif interaction_type == InteractionType.REQUEST:
             return self.request(telecommand)
+        else:
+            print("Interaction type not implemented")
+            return False
