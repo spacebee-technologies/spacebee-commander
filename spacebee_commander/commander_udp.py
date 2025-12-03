@@ -31,7 +31,7 @@ def main(dest_addr: str, dest_port: int, host_addr: str, host_port: int,
     logger = logging.getLogger(__name__)
 
     logger.info("=" * 60)
-    logger.info("Spacebee Commander starting...")
+    logger.info("Spacebee Commander (UDP) starting...")
     logger.info(f"Destination: {dest_addr}:{dest_port}")
     logger.info(f"Listening on: {host_addr}:{host_port}")
     logger.info("=" * 60)

@@ -20,7 +20,7 @@ class UdpHandler(Communication):
         )
 
     def send(self, message):
-        logger.debug(f"Sending {len(message)} bytes to {self.rover_ip}:{self.rover_port_send}")
+        logger.debug(f"Sending message to {self.rover_ip}:{self.rover_port_send}")
         try:
             socket_file_descriptor = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             socket_file_descriptor.sendto(message, (self.rover_ip, self.rover_port_send))

@@ -85,7 +85,7 @@ class Logger:
         if level == LogLevel.DEBUG:
             format_string = '%(asctime)s [%(levelname)s] %(name)s.%(funcName)s:%(lineno)d - %(message)s'
         else:
-            format_string = '%(asctime)s [%(levelname)s] %(name)s - %(message)s'
+            format_string = '%(asctime)s [%(levelname)s] - %(message)s'
 
         if supports_color:
             console_format = ColoredFormatter(format_string, datefmt='%H:%M:%S')
