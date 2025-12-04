@@ -103,7 +103,7 @@ class MessageManager:
                 return None
 
             logger.debug(
-                f"Header unpacked: interaction={header.interaction_type.name}, "
+                f"Header unpacked: interaction={header.interaction_type}, "
                 f"stage={header.interaction_stage}, transaction_id={header.transaction_id}"
             )
 
