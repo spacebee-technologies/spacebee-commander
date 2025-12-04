@@ -125,6 +125,12 @@ class Commander:
             return self.submit(telecommand)
         elif interaction_type == InteractionType.REQUEST:
             return self.request(telecommand)
+        elif interaction_type == InteractionType.INVOKE:
+            logger.error(f"Interaction type: {interaction_type.name} not implemented.")
+        elif interaction_type == InteractionType.PROGRESS:
+            logger.error(f"Interaction type: {interaction_type.name} not implemented.")
+        elif interaction_type == InteractionType.PUBSUB:
+            logger.error(f"Interaction type: {interaction_type.name} not implemented.")
         else:
             logger.error(f"Unknown interaction type: {interaction_type}")
             return False
