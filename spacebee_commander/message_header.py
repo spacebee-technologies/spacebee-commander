@@ -71,8 +71,8 @@ class MessageHeader:
             values = struct.unpack(cls._STRUCT_FORMAT, raw)
             header = cls(*values)
             logger.debug(
-                f"Header unpacked: interaction={header.interaction_type.name}, "
-                f"service={header.service.name}, operation={header.operation}, "
+                f"Header unpacked: interaction={header.interaction_type}, "
+                f"service={header.service}, operation={header.operation}, "
                 f"transaction_id={header.transaction_id}, body_length={header.body_length}"
             )
             return header
